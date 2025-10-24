@@ -92,7 +92,8 @@
 				]
 			},
 			{
-				"name": "Fail1",
+				"name": "Copy Customers to landing Error",
+				"description": "Register a ",
 				"type": "Fail",
 				"dependsOn": [
 					{
