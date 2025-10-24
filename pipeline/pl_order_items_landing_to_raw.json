@@ -100,7 +100,7 @@
 				}
 			},
 			{
-				"name": "Copy Customers to landing Error",
+				"name": "Copy Orders to landing Error",
 				"description": "Register a copy error message.",
 				"type": "Fail",
 				"dependsOn": [
