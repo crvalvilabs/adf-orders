@@ -1,5 +1,5 @@
 {
-	"name": "pipeline1",
+	"name": "pl_products_landing_to_raw",
 	"properties": {
 		"annotations": []
 	}
