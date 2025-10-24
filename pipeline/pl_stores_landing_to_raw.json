@@ -1,0 +1,114 @@
+{
+	"name": "pl_stores_landing_to_raw",
+	"properties": {
+		"activities": [
+			{
+				"name": "Validate Existing File Error",
+				"description": "Register a failure message",
+				"type": "Fail",
+				"dependsOn": [
+					{
+						"activity": "Validate Existing Stores File",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"message": "The stores file doesn't exist.",
+					"errorCode": "404"
+				}
+			},
+			{
+				"name": "Copy Stores to landing Error",
+				"description": "Register a copy error message.",
+				"type": "Fail",
+				"dependsOn": [
+					{
+						"activity": "Copy Customers Landing to Raw",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"message": "The file stores.json cannot be copied to raw.",
+					"errorCode": "404"
+				}
+			},
+			{
+				"name": "Validate Existing Stores File",
+				"description": "Register a failure message",
+				"type": "Validation",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_landing_stores",
+						"type": "DatasetReference"
+					},
+					"timeout": "0.00:10:00",
+					"sleep": 10
+				}
+			},
+			{
+				"name": "Copy Customers Landing to Raw",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Validate Existing Stores File",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.00:10:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_landing_stores",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_raw_stores",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
