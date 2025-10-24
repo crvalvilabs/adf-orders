@@ -93,7 +93,7 @@
 			},
 			{
 				"name": "Copy Customers to landing Error",
-				"description": "Register a ",
+				"description": "Register a copy error message.",
 				"type": "Fail",
 				"dependsOn": [
 					{
@@ -103,7 +103,10 @@
 						]
 					}
 				],
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"message": ""
+				}
 			}
 		],
 		"annotations": [],
