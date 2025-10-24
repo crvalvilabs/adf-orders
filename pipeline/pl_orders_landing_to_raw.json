@@ -21,7 +21,7 @@
 				}
 			},
 			{
-				"name": "Copy File Error",
+				"name": "Copy Orders to Landing Error",
 				"description": "Register a copy error message.",
 				"type": "Fail",
 				"dependsOn": [
