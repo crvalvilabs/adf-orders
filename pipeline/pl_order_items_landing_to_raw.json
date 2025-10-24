@@ -98,6 +98,24 @@
 					"message": "The order file doesn't exist.",
 					"errorCode": "404"
 				}
+			},
+			{
+				"name": "Copy Customers to landing Error",
+				"description": "Register a copy error message.",
+				"type": "Fail",
+				"dependsOn": [
+					{
+						"activity": "Copy Order Items Landing to Raw",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"message": "The file order_items cannot be copied to raw.",
+					"errorCode": "404"
+				}
 			}
 		],
 		"annotations": [],
