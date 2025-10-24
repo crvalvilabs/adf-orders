@@ -105,7 +105,8 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"message": ""
+					"message": "The file customers.json cannot be copied to raw.",
+					"errorCode": "404"
 				}
 			}
 		],
