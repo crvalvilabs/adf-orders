@@ -13,12 +13,17 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "OrderDateAndUpdateTimestamp"
+				}
+			],
 			"scriptLines": [
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     format: 'parquet') ~> OrdersRaw"
+				"     format: 'parquet') ~> OrdersRaw",
+				"OrdersRaw derive(ORDER_DATE = ERROR_FUNCTION('')) ~> OrderDateAndUpdateTimestamp"
 			]
 		}
 	}
