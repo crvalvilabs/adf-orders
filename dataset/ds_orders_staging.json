@@ -14,7 +14,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "orders.parquet",
-				"folderPath": "orders",
+				"folderPath": "order",
 				"fileSystem": "staging"
 			},
 			"compressionCodec": "snappy"
