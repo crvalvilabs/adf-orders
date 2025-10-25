@@ -15,7 +15,8 @@
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "OrderDateAndUpdateTimestamp"
+					"name": "OrderDateAndUpdateTimestamp",
+					"description": "Creating/updating the columns 'ORDER_DATE', ORDER_DATETIME, CUSTOMER_ID, OR"
 				}
 			],
 			"scriptLines": [
