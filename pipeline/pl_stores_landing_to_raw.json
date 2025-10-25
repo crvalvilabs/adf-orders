@@ -109,6 +109,9 @@
 				]
 			}
 		],
+		"folder": {
+			"name": "01 Pipes by object"
+		},
 		"annotations": []
 	}
 }
