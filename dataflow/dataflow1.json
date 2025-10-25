@@ -29,7 +29,7 @@
 				"     format: 'parquet') ~> OrdersRaw",
 				"OrdersRaw derive(ORDER_DATE = toDate('ORDER_DATETIME', 'dd-MMM-yy HH.mm.ss.SS'),",
 				"          UPDATED_TIMESTAMP = currentUTC()) ~> OrderDateAndUpdateTimestamp",
-				"OrderDateAndUpdateTimestamp cast(output(",
+				"OrdersRaw cast(output(",
 				"          ORDER_DATE as date",
 				"     ),",
 				"     errors: true) ~> CastDataTypesOrders"
