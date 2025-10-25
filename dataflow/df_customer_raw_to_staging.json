@@ -5,6 +5,10 @@
 		"typeProperties": {
 			"sources": [
 				{
+					"dataset": {
+						"referenceName": "ds_raw_customer",
+						"type": "DatasetReference"
+					},
 					"name": "CustomerRaw"
 				}
 			],
@@ -12,7 +16,9 @@
 			"transformations": [],
 			"scriptLines": [
 				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> CustomerRaw"
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> CustomerRaw"
 			]
 		}
 	}
