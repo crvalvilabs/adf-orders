@@ -23,7 +23,7 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> OrdersRaw",
-				"OrdersRaw derive(ORDER_DATE = toDate(ORDER_DATIME, 'dd-MMM-yy HH.mm.ss.SS')) ~> OrderDateAndUpdateTimestamp"
+				"OrdersRaw derive(ORDER_DATE = toDate(ORDER_DATETIME, 'dd-MMM-yy HH.mm.ss.SS')) ~> OrderDateAndUpdateTimestamp"
 			]
 		}
 	}
