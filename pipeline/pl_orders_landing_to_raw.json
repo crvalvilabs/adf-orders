@@ -116,6 +116,9 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "01 Pipes by object"
+		},
 		"annotations": [],
 		"lastPublishTime": "2025-10-24T04:32:09Z"
 	},
