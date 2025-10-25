@@ -13,12 +13,22 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				}
+			],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          CUSTOMER_ID as short,",
+				"          EMAIL_ADDRESS as string,",
+				"          FULL_NAME as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     documentForm: 'documentPerLine') ~> CustomerRaw"
+				"     documentForm: 'documentPerLine') ~> CustomerRaw",
+				"CustomerRaw derive() ~> derivedColumn1"
 			]
 		}
 	}
