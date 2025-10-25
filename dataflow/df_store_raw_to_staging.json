@@ -17,6 +17,9 @@
 				{
 					"name": "OrderDateAndUpdateTimestamp",
 					"description": "Creating/updating the columns 'ORDER_DATE', ORDER_DATETIME, CUSTOMER_ID, ORDER_STATUS"
+				},
+				{
+					"name": "cast1"
 				}
 			],
 			"scriptLines": [
@@ -25,7 +28,11 @@
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> OrdersRaw",
 				"OrdersRaw derive(ORDER_DATE = toDate('ORDER_DATETIME', 'dd-MMM-yy HH.mm.ss.SS'),",
-				"          UPDATED_TIMESTAMP = currentUTC()) ~> OrderDateAndUpdateTimestamp"
+				"          UPDATED_TIMESTAMP = currentUTC()) ~> OrderDateAndUpdateTimestamp",
+				"OrderDateAndUpdateTimestamp cast(output(",
+				"          ORDER_DATE as date",
+				"     ),",
+				"     errors: true) ~> cast1"
 			]
 		}
 	}
