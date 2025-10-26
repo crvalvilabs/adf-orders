@@ -19,6 +19,9 @@
 				},
 				{
 					"name": "CastDataTypesOrders"
+				},
+				{
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -38,13 +41,24 @@
 				"OrderDatetimeAndUpdatedTimestamp cast(output(",
 				"          ORDER_ID as integer,",
 				"          ORDER_DATETIME as string,",
-				"          CUSTOMER_ID as string,",
+				"          CUSTOMER_ID as integer,",
 				"          ORDER_STATUS as string,",
-				"          STORE_ID as string,",
+				"          STORE_ID as integer,",
 				"          ORDER_DATE as date,",
 				"          UPDATED_TIMESTAMP as timestamp",
 				"     ),",
-				"     errors: true) ~> CastDataTypesOrders"
+				"     errors: true) ~> CastDataTypesOrders",
+				"CastDataTypesOrders select(mapColumn(",
+				"          ORDER_ID,",
+				"          ORDER_DATETIME,",
+				"          CUSTOMER_ID,",
+				"          ORDER_STATUS,",
+				"          STORE_ID,",
+				"          ORDER_DATE,",
+				"          UPDATED_TIMESTAMP",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1"
 			]
 		}
 	}
