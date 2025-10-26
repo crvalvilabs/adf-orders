@@ -391,6 +391,24 @@
 					"timeout": "0.00:05:00",
 					"sleep": 86500
 				}
+			},
+			{
+				"name": "Validate Existing File Error",
+				"description": "Register a failure message",
+				"type": "Fail",
+				"dependsOn": [
+					{
+						"activity": "Validate Existing Stores File",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"message": "The stores file doesn't exist.",
+					"errorCode": "404"
+				}
 			}
 		],
 		"annotations": []
