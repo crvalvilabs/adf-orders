@@ -12,7 +12,11 @@
 					"name": "OrdersRaw"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "OrderDatetimeAndUpdatedTimestamp"
@@ -50,14 +54,18 @@
 				"     errors: true) ~> CastDataTypesOrders",
 				"CastDataTypesOrders select(mapColumn(",
 				"          ORDER_ID,",
+				"          ORDER_DATE,",
 				"          CUSTOMER_ID,",
 				"          ORDER_STATUS,",
 				"          STORE_ID,",
-				"          ORDER_DATE,",
 				"          UPDATED_TIMESTAMP",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> DropOrderDatetimeAndReorder"
+				"     skipDuplicateMapOutputs: true) ~> DropOrderDatetimeAndReorder",
+				"DropOrderDatetimeAndReorder sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
