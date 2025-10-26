@@ -107,6 +107,9 @@
 				},
 				{
 					"name": "DropWebAddressAndReoder"
+				},
+				{
+					"name": "UpdatedTimestampStores"
 				}
 			],
 			"scriptLines": [
@@ -230,6 +233,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> DropWebAddressAndReoder",
+				"DropWebAddressAndReoder derive() ~> UpdatedTimestampStores",
 				"DropOrderDatetimeAndReorder sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
