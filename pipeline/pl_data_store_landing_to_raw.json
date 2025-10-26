@@ -129,7 +129,7 @@
 						]
 					},
 					{
-						"activity": "Validate Existing File",
+						"activity": "Validate Existing Orders File",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -198,7 +198,7 @@
 						]
 					},
 					{
-						"activity": "Validate Existing Order File",
+						"activity": "Validate Existing Order Items File",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -365,7 +365,7 @@
 				}
 			},
 			{
-				"name": "Validate Existing File",
+				"name": "Validate Existing Orders File",
 				"type": "Validation",
 				"dependsOn": [],
 				"userProperties": [],
@@ -379,7 +379,7 @@
 				}
 			},
 			{
-				"name": "Validate Existing Order File",
+				"name": "Validate Existing Order Items File",
 				"type": "Validation",
 				"dependsOn": [],
 				"userProperties": [],
