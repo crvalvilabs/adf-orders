@@ -18,7 +18,7 @@
 					"name": "OrderDatetimeAndUpdatedTimestamp"
 				},
 				{
-					"name": "cast1"
+					"name": "CastDataTypesOrders"
 				}
 			],
 			"scriptLines": [
@@ -36,9 +36,15 @@
 				"OrdersRaw derive(ORDER_DATE = toDate(ORDER_DATETIME, 'dd-MMM-yy HH.mm.ss.SS'),",
 				"          UPDATED_TIMESTAMP = currentUTC()) ~> OrderDatetimeAndUpdatedTimestamp",
 				"OrderDatetimeAndUpdatedTimestamp cast(output(",
-				"          ORDER_ID as string",
+				"          ORDER_ID as integer,",
+				"          ORDER_DATETIME as string,",
+				"          CUSTOMER_ID as string,",
+				"          ORDER_STATUS as string,",
+				"          STORE_ID as string,",
+				"          ORDER_DATE as date,",
+				"          UPDATED_TIMESTAMP as timestamp",
 				"     ),",
-				"     errors: true) ~> cast1"
+				"     errors: true) ~> CastDataTypesOrders"
 			]
 		}
 	}
