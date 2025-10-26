@@ -37,6 +37,9 @@
 				},
 				{
 					"name": "DropOrderDatetimeAndReorder"
+				},
+				{
+					"name": "CastTypesOrderItems"
 				}
 			],
 			"scriptLines": [
@@ -83,6 +86,10 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> DropOrderDatetimeAndReorder",
+				"OrdersItemsRaw cast(output(",
+				"          ORDER_ID as short",
+				"     ),",
+				"     errors: true) ~> CastTypesOrderItems",
 				"DropOrderDatetimeAndReorder sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
