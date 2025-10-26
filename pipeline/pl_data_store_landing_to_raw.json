@@ -66,6 +66,12 @@
 						"dependencyConditions": [
 							"Completed"
 						]
+					},
+					{
+						"activity": "Validate Existing Products File",
+						"dependencyConditions": [
+							"Completed"
+						]
 					}
 				],
 				"policy": {
