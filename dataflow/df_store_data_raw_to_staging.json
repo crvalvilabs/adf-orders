@@ -26,9 +26,17 @@
 					"name": "CustomersRaw"
 				},
 				{
+					"dataset": {
+						"referenceName": "ds_raw_products",
+						"type": "DatasetReference"
+					},
 					"name": "ProductsRaw"
 				},
 				{
+					"dataset": {
+						"referenceName": "ds_raw_stores",
+						"type": "DatasetReference"
+					},
 					"name": "StoresRaw"
 				}
 			],
@@ -114,9 +122,13 @@
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> CustomersRaw",
 				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> ProductsRaw",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> ProductsRaw",
 				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> StoresRaw",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> StoresRaw",
 				"OrdersRaw derive(ORDER_DATE = toDate(ORDER_DATETIME, 'dd-MMM-yy HH.mm.ss.SS'),",
 				"          UPDATED_TIMESTAMP = currentUTC()) ~> OrderDatetimeAndUpdatedTimestamp",
 				"OrderDatetimeAndUpdatedTimestamp cast(output(",
