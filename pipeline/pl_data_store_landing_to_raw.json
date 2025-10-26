@@ -445,6 +445,24 @@
 					"message": "The file orders.parquet doesn't exist.",
 					"errorCode": "404"
 				}
+			},
+			{
+				"name": "Validate Existing File Error",
+				"description": "Register a failure message",
+				"type": "Fail",
+				"dependsOn": [
+					{
+						"activity": "Validate Existing Order Items File",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"message": "The order file doesn't exist.",
+					"errorCode": "404"
+				}
 			}
 		],
 		"annotations": []
