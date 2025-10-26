@@ -63,6 +63,10 @@
 					"name": "CustomerSink"
 				},
 				{
+					"dataset": {
+						"referenceName": "ds_products_staging",
+						"type": "DatasetReference"
+					},
 					"name": "ProductsSink"
 				}
 			],
@@ -230,6 +234,10 @@
 				"     skipDuplicateMapOutputs: true) ~> CustomerSink",
 				"UpdateTimestampProducts sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> ProductsSink"
 			]
