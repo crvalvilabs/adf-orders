@@ -121,20 +121,7 @@
 			{
 				"name": "Copy Orders Landing to Raw_copy1",
 				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "Copy Products Landing to Raw",
-						"dependencyConditions": [
-							"Completed"
-						]
-					},
-					{
-						"activity": "Validate Existing Orders File",
-						"dependencyConditions": [
-							"Completed"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.00:10:00",
 					"retry": 0,
@@ -432,14 +419,7 @@
 				"name": "Validate Existing Orders File Error",
 				"description": "Register a failure message.",
 				"type": "Fail",
-				"dependsOn": [
-					{
-						"activity": "Validate Existing Orders File",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
+				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"message": "The file orders.parquet doesn't exist.",
