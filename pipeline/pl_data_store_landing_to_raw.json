@@ -447,7 +447,7 @@
 				}
 			},
 			{
-				"name": "Validate Existing File Error",
+				"name": "Validate Existing Order Items File Error",
 				"description": "Register a failure message",
 				"type": "Fail",
 				"dependsOn": [
@@ -461,6 +461,24 @@
 				"userProperties": [],
 				"typeProperties": {
 					"message": "The order file doesn't exist.",
+					"errorCode": "404"
+				}
+			},
+			{
+				"name": "Validate Existing Customers File Error",
+				"description": "Register a failure message",
+				"type": "Fail",
+				"dependsOn": [
+					{
+						"activity": "Validate Existing Customer File",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"message": "The customers file doesn't exist.",
 					"errorCode": "404"
 				}
 			}
