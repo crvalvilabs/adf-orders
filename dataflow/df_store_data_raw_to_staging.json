@@ -63,7 +63,7 @@
 					"name": "CustomerSink"
 				},
 				{
-					"name": "sink1"
+					"name": "ProductsSink"
 				}
 			],
 			"transformations": [
@@ -203,7 +203,7 @@
 				"          UNIT_PRICE as double",
 				"     ),",
 				"     errors: true) ~> CastDataTypesStores",
-				"CastDataTypesStores derive(UPDATED_TIMESTAMP = c) ~> UpdateTimestampProducts",
+				"CastDataTypesStores derive(UPDATED_TIMESTAMP = currentUTC()) ~> UpdateTimestampProducts",
 				"DropOrderDatetimeAndReorder sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
@@ -231,7 +231,7 @@
 				"UpdateTimestampProducts sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true) ~> ProductsSink"
 			]
 		}
 	}
