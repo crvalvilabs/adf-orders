@@ -25,6 +25,24 @@
 					},
 					"traceLevel": "Fine"
 				}
+			},
+			{
+				"name": "Move data to staging Error",
+				"description": "Register a failure message",
+				"type": "Fail",
+				"dependsOn": [
+					{
+						"activity": "df_store_data_staging",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"message": "The cmove data process encountered an error during process",
+					"errorCode": "404"
+				}
 			}
 		],
 		"annotations": []
