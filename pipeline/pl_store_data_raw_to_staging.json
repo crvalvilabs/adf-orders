@@ -40,8 +40,8 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"message": "The cmove data process encountered an error during process",
-					"errorCode": "404"
+					"message": "The data move process encountered an error during processing.",
+					"errorCode": "500"
 				}
 			}
 		],
