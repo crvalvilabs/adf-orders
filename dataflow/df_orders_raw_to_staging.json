@@ -97,7 +97,7 @@
 				"          QUANTITY as integer",
 				"     ),",
 				"     errors: true) ~> CastTypesOrderItems",
-				"CastTypesOrderItems derive() ~> UpdatedDateOrderItems",
+				"CastTypesOrderItems derive(UPDATED_TIMESTAMP = currentUTC()) ~> UpdatedDateOrderItems",
 				"DropOrderDatetimeAndReorder sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
