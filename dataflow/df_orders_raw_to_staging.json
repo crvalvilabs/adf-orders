@@ -26,6 +26,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "OrdersSink"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_order_item_staging",
+						"type": "DatasetReference"
+					},
+					"name": "OrderItemSink"
 				}
 			],
 			"transformations": [
@@ -118,7 +125,15 @@
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> OrdersSink"
+				"     skipDuplicateMapOutputs: true) ~> OrdersSink",
+				"DropItemLineId sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> OrderItemSink"
 			]
 		}
 	}
