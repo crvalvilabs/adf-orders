@@ -66,12 +66,6 @@
 						"dependencyConditions": [
 							"Completed"
 						]
-					},
-					{
-						"activity": "Validate Existing Products File",
-						"dependencyConditions": [
-							"Completed"
-						]
 					}
 				],
 				"policy": {
@@ -122,12 +116,6 @@
 				"name": "Copy Orders Landing to Raw_copy1",
 				"type": "Copy",
 				"dependsOn": [
-					{
-						"activity": "Validate Existing Orders File",
-						"dependencyConditions": [
-							"Completed"
-						]
-					},
 					{
 						"activity": "Copy Products Landing to Raw",
 						"dependencyConditions": [
@@ -414,14 +402,7 @@
 				"name": "Validate Existing Products File Error",
 				"description": "Register a failure message",
 				"type": "Fail",
-				"dependsOn": [
-					{
-						"activity": "Validate Existing Products File",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
+				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"message": "The products file doesn't exist.",
@@ -450,14 +431,7 @@
 				"name": "Validate Existing Order Items File Error",
 				"description": "Register a failure message",
 				"type": "Fail",
-				"dependsOn": [
-					{
-						"activity": "Validate Existing Order Items File",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
+				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"message": "The order file doesn't exist.",
