@@ -196,6 +196,12 @@
 						"dependencyConditions": [
 							"Completed"
 						]
+					},
+					{
+						"activity": "Validate Existing Order File",
+						"dependencyConditions": [
+							"Completed"
+						]
 					}
 				],
 				"policy": {
@@ -370,6 +376,20 @@
 					},
 					"timeout": "0.00:10:00",
 					"sleep": 85000
+				}
+			},
+			{
+				"name": "Validate Existing Order File",
+				"type": "Validation",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_landing_order_items",
+						"type": "DatasetReference"
+					},
+					"timeout": "0.00:05:00",
+					"sleep": 86500
 				}
 			}
 		],
