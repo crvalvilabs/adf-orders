@@ -30,7 +30,7 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> OrdersRaw",
-				"OrdersRaw derive(ORDER_DATETIME = toDate(ORDER_DATETIME, 'dd-MMM-yy HH.mm.ss.SS'),",
+				"OrdersRaw derive(ORDER_DATE = toDate(ORDER_DATETIME, 'dd-MMM-yy HH.mm.ss.SS'),",
 				"          UPDATED_TIMESTAMP = currentUTC()) ~> OrderDatetimeAndUpdatedTimestamp"
 			]
 		}
