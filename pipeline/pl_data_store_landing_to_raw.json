@@ -66,6 +66,12 @@
 						"dependencyConditions": [
 							"Completed"
 						]
+					},
+					{
+						"activity": "Validate Existing Products File",
+						"dependencyConditions": [
+							"Completed"
+						]
 					}
 				],
 				"policy": {
@@ -118,6 +124,12 @@
 				"dependsOn": [
 					{
 						"activity": "Copy Products Landing to Raw",
+						"dependencyConditions": [
+							"Completed"
+						]
+					},
+					{
+						"activity": "Validate Existing File",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -344,6 +356,20 @@
 					},
 					"timeout": "0.00:10:00",
 					"sleep": 10
+				}
+			},
+			{
+				"name": "Validate Existing File",
+				"type": "Validation",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_landing_orders",
+						"type": "DatasetReference"
+					},
+					"timeout": "0.00:10:00",
+					"sleep": 85000
 				}
 			}
 		],
