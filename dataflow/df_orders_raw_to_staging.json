@@ -10,6 +10,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "OrdersRaw"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_raw_order_items",
+						"type": "DatasetReference"
+					},
+					"name": "OrdersItemsRaw"
 				}
 			],
 			"sinks": [
@@ -44,6 +51,9 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> OrdersRaw",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> OrdersItemsRaw",
 				"OrdersRaw derive(ORDER_DATE = toDate(ORDER_DATETIME, 'dd-MMM-yy HH.mm.ss.SS'),",
 				"          UPDATED_TIMESTAMP = currentUTC()) ~> OrderDatetimeAndUpdatedTimestamp",
 				"OrderDatetimeAndUpdatedTimestamp cast(output(",
