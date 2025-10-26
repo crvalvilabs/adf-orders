@@ -40,6 +40,9 @@
 				},
 				{
 					"name": "CastTypesOrderItems"
+				},
+				{
+					"name": "UpdatedDateOrderItems"
 				}
 			],
 			"scriptLines": [
@@ -94,6 +97,7 @@
 				"          QUANTITY as integer",
 				"     ),",
 				"     errors: true) ~> CastTypesOrderItems",
+				"CastTypesOrderItems derive() ~> UpdatedDateOrderItems",
 				"DropOrderDatetimeAndReorder sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
