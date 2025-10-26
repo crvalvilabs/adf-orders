@@ -5,7 +5,14 @@
 			{
 				"name": "Copy Customers Landing to Raw",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Validate Existing Customer File",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.00:10:00",
 					"retry": 0,
@@ -287,6 +294,22 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Validate Existing Customer File",
+				"description": "Register a failure message",
+				"type": "Validation",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_landing_customer",
+						"type": "DatasetReference"
+					},
+					"timeout": "0.00:10:00",
+					"sleep": 85000,
+					"minimumSize": 2048
+				}
 			}
 		],
 		"annotations": []
