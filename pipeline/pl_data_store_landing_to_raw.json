@@ -393,7 +393,7 @@
 				}
 			},
 			{
-				"name": "Validate Existing File Error",
+				"name": "Validate Existing Store File Error",
 				"description": "Register a failure message",
 				"type": "Fail",
 				"dependsOn": [
@@ -407,6 +407,24 @@
 				"userProperties": [],
 				"typeProperties": {
 					"message": "The stores file doesn't exist.",
+					"errorCode": "404"
+				}
+			},
+			{
+				"name": "Validate Existing Producrs File Error",
+				"description": "Register a failure message",
+				"type": "Fail",
+				"dependsOn": [
+					{
+						"activity": "Validate Existing Products File",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"message": "The products file doesn't exist.",
 					"errorCode": "404"
 				}
 			}
