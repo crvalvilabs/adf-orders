@@ -97,10 +97,13 @@
 					"name": "UpdateteTimestampCustomers"
 				},
 				{
-					"name": "CastDataTypesStores"
+					"name": "CastDataTypesProducts"
 				},
 				{
 					"name": "UpdateTimestampProducts"
+				},
+				{
+					"name": "CastDataTypesStores"
 				}
 			],
 			"scriptLines": [
@@ -206,8 +209,12 @@
 				"          PRODUCT_NAME as string,",
 				"          UNIT_PRICE as double",
 				"     ),",
+				"     errors: true) ~> CastDataTypesProducts",
+				"CastDataTypesProducts derive(UPDATED_TIMESTAMP = currentUTC()) ~> UpdateTimestampProducts",
+				"StoresRaw cast(output(",
+				"          LATITUDE as double",
+				"     ),",
 				"     errors: true) ~> CastDataTypesStores",
-				"CastDataTypesStores derive(UPDATED_TIMESTAMP = currentUTC()) ~> UpdateTimestampProducts",
 				"DropOrderDatetimeAndReorder sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
