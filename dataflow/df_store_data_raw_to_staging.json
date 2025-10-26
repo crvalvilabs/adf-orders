@@ -93,7 +93,7 @@
 					"name": "UpdateteTimestampCustomers"
 				},
 				{
-					"name": "cast1"
+					"name": "CastDataTypesStores"
 				},
 				{
 					"name": "derivedColumn1"
@@ -198,10 +198,12 @@
 				"     errors: true) ~> CastDataTypesCustomers",
 				"CastDataTypesCustomers derive(UPDATED_TIMESTAMP = currentUTC()) ~> UpdateteTimestampCustomers",
 				"ProductsRaw cast(output(",
-				"          PRODUCT_ID as short",
+				"          PRODUCT_ID as integer,",
+				"          PRODUCT_NAME as string,",
+				"          UNIT_PRICE as double",
 				"     ),",
-				"     errors: true) ~> cast1",
-				"cast1 derive() ~> derivedColumn1",
+				"     errors: true) ~> CastDataTypesStores",
+				"CastDataTypesStores derive() ~> derivedColumn1",
 				"DropOrderDatetimeAndReorder sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
