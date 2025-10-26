@@ -481,17 +481,6 @@
 					"message": "The customers file doesn't exist.",
 					"errorCode": "404"
 				}
-			},
-			{
-				"name": "Copy Stores to landing Error",
-				"description": "Register a copy error message.",
-				"type": "Fail",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"message": "The file stores.json cannot be copied to raw.",
-					"errorCode": "404"
-				}
 			}
 		],
 		"annotations": []
