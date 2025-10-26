@@ -104,6 +104,9 @@
 				},
 				{
 					"name": "CastDataTypesStores"
+				},
+				{
+					"name": "DropWebAddressAndReoder"
 				}
 			],
 			"scriptLines": [
@@ -219,6 +222,14 @@
 				"          WEB_ADDRESS as string",
 				"     ),",
 				"     errors: true) ~> CastDataTypesStores",
+				"CastDataTypesStores select(mapColumn(",
+				"          LATITUDE,",
+				"          LONGITUDE,",
+				"          STORE_ID,",
+				"          STORE_NAME",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> DropWebAddressAndReoder",
 				"DropOrderDatetimeAndReorder sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
