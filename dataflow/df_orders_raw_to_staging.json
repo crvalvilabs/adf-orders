@@ -30,7 +30,8 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> OrdersRaw",
-				"OrdersRaw derive(ORDER_DATETIME = ERROR_FUNCTION('')) ~> derivedColumn1"
+				"OrdersRaw derive(ORDER_DATETIME = toDate(ORDER_DATETIME, 'dd-MMM-yy HH.mm.ss.SS'),",
+				"          column1 = ERROR_FUNCTION('')) ~> derivedColumn1"
 			]
 		}
 	}
