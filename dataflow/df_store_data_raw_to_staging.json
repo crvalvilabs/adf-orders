@@ -96,7 +96,7 @@
 					"name": "CastDataTypesStores"
 				},
 				{
-					"name": "derivedColumn1"
+					"name": "UpdateTimestampProducts"
 				}
 			],
 			"scriptLines": [
@@ -203,7 +203,7 @@
 				"          UNIT_PRICE as double",
 				"     ),",
 				"     errors: true) ~> CastDataTypesStores",
-				"CastDataTypesStores derive() ~> derivedColumn1",
+				"CastDataTypesStores derive(UPDATED_TIMESTAMP = c) ~> UpdateTimestampProducts",
 				"DropOrderDatetimeAndReorder sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
@@ -228,7 +228,7 @@
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> CustomerSink",
-				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"UpdateTimestampProducts sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> sink1"
