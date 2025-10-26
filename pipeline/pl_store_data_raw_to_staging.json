@@ -1,5 +1,5 @@
 {
-	"name": "pipeline1",
+	"name": "pl_store_data_raw_to_staging",
 	"properties": {
 		"activities": [
 			{
