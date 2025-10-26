@@ -16,6 +16,9 @@
 			"transformations": [
 				{
 					"name": "OrderDatetimeAndUpdatedTimestamp"
+				},
+				{
+					"name": "cast1"
 				}
 			],
 			"scriptLines": [
@@ -31,7 +34,11 @@
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> OrdersRaw",
 				"OrdersRaw derive(ORDER_DATE = toDate(ORDER_DATETIME, 'dd-MMM-yy HH.mm.ss.SS'),",
-				"          UPDATED_TIMESTAMP = currentUTC()) ~> OrderDatetimeAndUpdatedTimestamp"
+				"          UPDATED_TIMESTAMP = currentUTC()) ~> OrderDatetimeAndUpdatedTimestamp",
+				"OrderDatetimeAndUpdatedTimestamp cast(output(",
+				"          ORDER_ID as string",
+				"     ),",
+				"     errors: true) ~> cast1"
 			]
 		}
 	}
