@@ -3,16 +3,9 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy Customers Landing to Raw",
+				"name": "Copy Stores Landing to Raw",
 				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "Validate Existing Customer File",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.00:10:00",
 					"retry": 0,
@@ -62,7 +55,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Copy Customers Landing to Raw",
+						"activity": "Copy Stores Landing to Raw",
 						"dependencyConditions": [
 							"Succeeded"
 						]
