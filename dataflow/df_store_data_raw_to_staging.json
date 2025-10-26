@@ -68,6 +68,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "ProductsSink"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_store_staging",
+						"type": "DatasetReference"
+					},
+					"name": "StoreSink"
 				}
 			],
 			"transformations": [
@@ -233,7 +240,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> DropWebAddressAndReoder",
-				"DropWebAddressAndReoder derive() ~> UpdatedTimestampStores",
+				"DropWebAddressAndReoder derive(UPDATED_TIMESTAMP = currentUTC()) ~> UpdatedTimestampStores",
 				"DropOrderDatetimeAndReorder sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
@@ -265,7 +272,15 @@
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> ProductsSink"
+				"     skipDuplicateMapOutputs: true) ~> ProductsSink",
+				"UpdatedTimestampStores sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> StoreSink"
 			]
 		}
 	}
