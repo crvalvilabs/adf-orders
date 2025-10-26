@@ -393,7 +393,7 @@
 				}
 			},
 			{
-				"name": "Validate Existing Store File Error",
+				"name": "Validate Existing Stores File Error",
 				"description": "Register a failure message",
 				"type": "Fail",
 				"dependsOn": [
@@ -411,7 +411,7 @@
 				}
 			},
 			{
-				"name": "Validate Existing Producrs File Error",
+				"name": "Validate Existing Products File Error",
 				"description": "Register a failure message",
 				"type": "Fail",
 				"dependsOn": [
@@ -425,6 +425,24 @@
 				"userProperties": [],
 				"typeProperties": {
 					"message": "The products file doesn't exist.",
+					"errorCode": "404"
+				}
+			},
+			{
+				"name": "Validate Existing Orders File Error",
+				"description": "Register a failure message.",
+				"type": "Fail",
+				"dependsOn": [
+					{
+						"activity": "Validate Existing Orders File",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"message": "The file orders.parquet doesn't exist.",
 					"errorCode": "404"
 				}
 			}
