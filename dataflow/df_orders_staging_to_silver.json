@@ -6,19 +6,32 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ds_orders_silver",
+						"referenceName": "ds_orders_staging",
 						"type": "DatasetReference"
 					},
 					"name": "OrdersStaging"
+				},
+				{
+					"name": "source1"
 				}
 			],
 			"sinks": [],
 			"transformations": [],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          ORDER_ID as integer,",
+				"          ORDER_DATE as date,",
+				"          CUSTOMER_ID as integer,",
+				"          ORDER_STATUS as string,",
+				"          STORE_ID as integer,",
+				"          UPDATED_TIMESTAMP as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     format: 'parquet') ~> OrdersStaging"
+				"     format: 'parquet') ~> OrdersStaging",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> source1"
 			]
 		}
 	}
