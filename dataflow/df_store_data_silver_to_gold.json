@@ -30,6 +30,9 @@
 			"transformations": [
 				{
 					"name": "ExcludeCancelled"
+				},
+				{
+					"name": "MonthYear"
 				}
 			],
 			"scriptLines": [
@@ -70,7 +73,8 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> OrdersSilver",
-				"OrdersSilver filter(ORDER_STATUS != 'CANCELLED') ~> ExcludeCancelled"
+				"OrdersSilver filter(ORDER_STATUS != 'CANCELLED') ~> ExcludeCancelled",
+				"ExcludeCancelled derive() ~> MonthYear"
 			]
 		}
 	}
