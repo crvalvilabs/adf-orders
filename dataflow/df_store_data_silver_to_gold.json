@@ -1,0 +1,72 @@
+{
+	"name": "df_store_data_silver_to_gold",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_products_silver",
+						"type": "DatasetReference"
+					},
+					"name": "ProductsSilver"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_stores_silver",
+						"type": "DatasetReference"
+					},
+					"name": "StoresSilver"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_orders_silver",
+						"type": "DatasetReference"
+					},
+					"name": "OrdersSilver"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          PRODUCT_ID as integer,",
+				"          PRODUCT_NAME as string,",
+				"          UNIT_PRICE as double,",
+				"          UPDATED_TIMESTAMP as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> ProductsSilver",
+				"source(output(",
+				"          STORE_ID as integer,",
+				"          STORE_NAME as string,",
+				"          LATITUDE as double,",
+				"          LONGITUDE as double,",
+				"          UPDATED_TIMESTAMP as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> StoresSilver",
+				"source(output(",
+				"          ORDER_ID as integer,",
+				"          ORDER_DATE as date,",
+				"          CUSTOMER_ID as integer,",
+				"          ORDER_STATUS as string,",
+				"          STORE_ID as integer,",
+				"          PRODUCT_ID as integer,",
+				"          UNIT_PRICE as double,",
+				"          QUANTITY as integer,",
+				"          SUBTOTAL as double,",
+				"          UPDATED_TIMESTAMP as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> OrdersSilver"
+			]
+		}
+	}
+}
