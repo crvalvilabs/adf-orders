@@ -74,7 +74,7 @@
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> OrdersSilver",
 				"OrdersSilver filter(ORDER_STATUS != 'CANCELLED') ~> ExcludeCancelled",
-				"ExcludeCancelled derive(MonthYear = toString(ORDER_DATE, 'MM-yyyy')) ~> MonthYear"
+				"ExcludeCancelled derive(MONTH_YEAR = toString(ORDER_DATE, 'MM-yyyy')) ~> MonthYear"
 			]
 		}
 	}
