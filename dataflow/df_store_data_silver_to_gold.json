@@ -87,7 +87,8 @@
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> JoinProductsOrders",
 				"JoinProductsOrders aggregate(groupBy(PRODUCT_NAME,",
-				"          {} = ERROR_FUNCTION(''))) ~> GroupBy"
+				"          MONTH_YEAR,",
+				"          ORDER_DATE)) ~> GroupBy"
 			]
 		}
 	}
