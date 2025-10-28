@@ -26,7 +26,11 @@
 					"name": "OrdersSilver"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"name": "ProductsOrdersMonthYearGold"
+				}
+			],
 			"transformations": [
 				{
 					"name": "ExcludeCancelled"
@@ -106,7 +110,11 @@
 				"          LONGITUDE,",
 				"          ORDER_STATUS,",
 				"          MONTH_YEAR),",
-				"     TOTAL_AMOUNT = round(sum(SUBTOTAL), 2)) ~> GroupByStoreMonthYear"
+				"     TOTAL_AMOUNT = round(sum(SUBTOTAL), 2)) ~> GroupByStoreMonthYear",
+				"GroupByProductNameAndMonthYear sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> ProductsOrdersMonthYearGold"
 			]
 		}
 	}
