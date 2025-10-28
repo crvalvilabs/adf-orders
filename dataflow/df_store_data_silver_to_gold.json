@@ -39,6 +39,9 @@
 				},
 				{
 					"name": "DropColumnsAndReorderColumns"
+				},
+				{
+					"name": "GroupBy"
 				}
 			],
 			"scriptLines": [
@@ -103,7 +106,8 @@
 				"          UPDATED_TIMESTAMP = OrdersSilver@UPDATED_TIMESTAMP",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> DropColumnsAndReorderColumns"
+				"     skipDuplicateMapOutputs: true) ~> DropColumnsAndReorderColumns",
+				"DropColumnsAndReorderColumns aggregate(groupBy(PRODUCT_NAME)) ~> GroupBy"
 			]
 		}
 	}
