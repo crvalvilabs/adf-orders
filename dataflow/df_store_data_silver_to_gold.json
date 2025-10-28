@@ -28,7 +28,14 @@
 			],
 			"sinks": [
 				{
+					"dataset": {
+						"referenceName": "ds_products_orders_monthly_gold",
+						"type": "DatasetReference"
+					},
 					"name": "ProductsOrdersMonthYearGold"
+				},
+				{
+					"name": "sink1"
 				}
 			],
 			"transformations": [
@@ -113,8 +120,16 @@
 				"     TOTAL_AMOUNT = round(sum(SUBTOTAL), 2)) ~> GroupByStoreMonthYear",
 				"GroupByProductNameAndMonthYear sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> ProductsOrdersMonthYearGold"
+				"     skipDuplicateMapOutputs: true) ~> ProductsOrdersMonthYearGold",
+				"GroupByStoreMonthYear sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
