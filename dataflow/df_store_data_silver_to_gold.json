@@ -38,7 +38,7 @@
 					"name": "JoinProductsOrders"
 				},
 				{
-					"name": "DropColumnsAndRe"
+					"name": "DropColumnsAndReorderColumns"
 				}
 			],
 			"scriptLines": [
@@ -103,7 +103,7 @@
 				"          UPDATED_TIMESTAMP = OrdersSilver@UPDATED_TIMESTAMP",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> DropColumnsAndRe"
+				"     skipDuplicateMapOutputs: true) ~> DropColumnsAndReorderColumns"
 			]
 		}
 	}
