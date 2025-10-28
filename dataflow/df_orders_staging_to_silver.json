@@ -26,6 +26,9 @@
 				},
 				{
 					"name": "DropColumns"
+				},
+				{
+					"name": "SubtotalAndUpdatedTimestampOrders"
 				}
 			],
 			"scriptLines": [
@@ -69,7 +72,8 @@
 				"          UPDATED_TIMESTAMP = OrdersItemsStaging@UPDATED_TIMESTAMP",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> DropColumns"
+				"     skipDuplicateMapOutputs: true) ~> DropColumns",
+				"DropColumns derive() ~> SubtotalAndUpdatedTimestampOrders"
 			]
 		}
 	}
