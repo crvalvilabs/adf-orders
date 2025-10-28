@@ -93,7 +93,7 @@
 				"          MONTH_YEAR,",
 				"          ORDER_STATUS),",
 				"     TOTAL_AMOUNT = round(sum(SUBTOTAL))) ~> GroupBy",
-				"StoresSilver, MonthYear join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"StoresSilver, MonthYear join(StoresSilver@STORE_ID == OrdersSilver@STORE_ID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
