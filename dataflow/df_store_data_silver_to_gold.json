@@ -88,7 +88,8 @@
 				"     broadcast: 'auto')~> JoinProductsOrders",
 				"JoinProductsOrders aggregate(groupBy(PRODUCT_NAME,",
 				"          MONTH_YEAR,",
-				"          ORDER_DATE)) ~> GroupBy"
+				"          ORDER_STATUS),",
+				"     SUM_TOTAL = sum(SUBTOTAL)) ~> GroupBy"
 			]
 		}
 	}
