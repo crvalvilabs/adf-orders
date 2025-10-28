@@ -70,7 +70,7 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> OrdersSilver",
-				"OrdersSilver filter(ERROR_FUNCTION('')) ~> ExcludeCancelled"
+				"OrdersSilver filter(ORDER_STATUS != 'CANCELLED') ~> ExcludeCancelled"
 			]
 		}
 	}
