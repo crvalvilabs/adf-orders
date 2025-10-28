@@ -38,13 +38,13 @@
 					"name": "JoinProductsOrders"
 				},
 				{
-					"name": "GroupBy"
+					"name": "GroupByProductNameAndMonthYear"
 				},
 				{
 					"name": "JoinStoresOrders"
 				},
 				{
-					"name": "aggregate1"
+					"name": "GRoupBy"
 				}
 			],
 			"scriptLines": [
@@ -95,13 +95,13 @@
 				"JoinProductsOrders aggregate(groupBy(PRODUCT_NAME,",
 				"          MONTH_YEAR,",
 				"          ORDER_STATUS),",
-				"     TOTAL_AMOUNT = round(sum(SUBTOTAL))) ~> GroupBy",
+				"     TOTAL_AMOUNT = round(sum(SUBTOTAL))) ~> GroupByProductNameAndMonthYear",
 				"StoresSilver, MonthYear join(StoresSilver@STORE_ID == OrdersSilver@STORE_ID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> JoinStoresOrders",
-				"JoinStoresOrders aggregate() ~> aggregate1"
+				"JoinStoresOrders aggregate() ~> GRoupBy"
 			]
 		}
 	}
