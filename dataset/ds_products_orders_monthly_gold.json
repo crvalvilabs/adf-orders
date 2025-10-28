@@ -13,6 +13,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": "products_orders_monthly.parquet",
 				"folderPath": "products_order_monthly",
 				"fileSystem": "gold"
 			},
