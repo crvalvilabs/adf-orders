@@ -49,7 +49,7 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> OrdersItemsStaging",
-				"OrdersStaging, OrdersItemsStaging join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"OrdersStaging, OrdersItemsStaging join(OrdersStaging@ORDER_ID == OrdersItemsStaging@ORDER_ID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
