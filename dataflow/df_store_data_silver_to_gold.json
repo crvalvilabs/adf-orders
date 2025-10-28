@@ -36,6 +36,9 @@
 				},
 				{
 					"name": "JoinProductsOrders"
+				},
+				{
+					"name": "DropColumnsAndRe"
 				}
 			],
 			"scriptLines": [
@@ -82,7 +85,25 @@
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> JoinProductsOrders"
+				"     broadcast: 'auto')~> JoinProductsOrders",
+				"JoinProductsOrders select(mapColumn(",
+				"          PRODUCT_ID = ProductsSilver@PRODUCT_ID,",
+				"          PRODUCT_NAME,",
+				"          UNIT_PRICE = ProductsSilver@UNIT_PRICE,",
+				"          UPDATED_TIMESTAMP = ProductsSilver@UPDATED_TIMESTAMP,",
+				"          ORDER_ID,",
+				"          ORDER_DATE,",
+				"          CUSTOMER_ID,",
+				"          ORDER_STATUS,",
+				"          STORE_ID,",
+				"          PRODUCT_ID = OrdersSilver@PRODUCT_ID,",
+				"          UNIT_PRICE = OrdersSilver@UNIT_PRICE,",
+				"          QUANTITY,",
+				"          SUBTOTAL,",
+				"          UPDATED_TIMESTAMP = OrdersSilver@UPDATED_TIMESTAMP",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> DropColumnsAndRe"
 			]
 		}
 	}
