@@ -44,7 +44,7 @@
 					"name": "JoinStoresOrders"
 				},
 				{
-					"name": "GRoupBy"
+					"name": "GroupByStoreMonthYear"
 				}
 			],
 			"scriptLines": [
@@ -101,7 +101,7 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> JoinStoresOrders",
-				"JoinStoresOrders aggregate() ~> GRoupBy"
+				"JoinStoresOrders aggregate() ~> GroupByStoreMonthYear"
 			]
 		}
 	}
