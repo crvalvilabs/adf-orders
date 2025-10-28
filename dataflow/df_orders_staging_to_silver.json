@@ -17,9 +17,27 @@
 						"type": "DatasetReference"
 					},
 					"name": "OrdersItemsStaging"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_products_staging",
+						"type": "DatasetReference"
+					},
+					"name": "ProductsStaging"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_orders_silver",
+						"type": "DatasetReference"
+					},
+					"name": "OrdersSilver"
+				},
+				{
+					"name": "ProductsSilver"
+				}
+			],
 			"transformations": [
 				{
 					"name": "OrdersOrdersItemsJoin"
@@ -32,6 +50,9 @@
 				},
 				{
 					"name": "RearrengeColumnsOrders"
+				},
+				{
+					"name": "UpdatedTimestamp"
 				}
 			],
 			"scriptLines": [
@@ -58,6 +79,16 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> OrdersItemsStaging",
+				"source(output(",
+				"          PRODUCT_ID as integer,",
+				"          PRODUCT_NAME as string,",
+				"          UNIT_PRICE as double,",
+				"          UPDATED_TIMESTAMP as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> ProductsStaging",
 				"OrdersStaging, OrdersItemsStaging join(OrdersStaging@ORDER_ID == OrdersItemsStaging@ORDER_ID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
@@ -87,11 +118,24 @@
 				"          PRODUCT_ID,",
 				"          UNIT_PRICE,",
 				"          QUANTITY,",
-				"          UPDATED_TIMESTAMP,",
-				"          SUBTOTAL",
+				"          SUBTOTAL,",
+				"          UPDATED_TIMESTAMP",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> RearrengeColumnsOrders"
+				"     skipDuplicateMapOutputs: true) ~> RearrengeColumnsOrders",
+				"ProductsStaging derive(UPDATED_TIMESTAMP = currentUTC()) ~> UpdatedTimestamp",
+				"RearrengeColumnsOrders sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> OrdersSilver",
+				"UpdatedTimestamp sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> ProductsSilver"
 			]
 		}
 	}
