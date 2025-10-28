@@ -95,7 +95,7 @@
 				"JoinProductsOrders aggregate(groupBy(PRODUCT_NAME,",
 				"          MONTH_YEAR,",
 				"          ORDER_STATUS),",
-				"     TOTAL_AMOUNT = round(sum(SUBTOTAL))) ~> GroupByProductNameAndMonthYear",
+				"     TOTAL_AMOUNT = round(sum(SUBTOTAL),2)) ~> GroupByProductNameAndMonthYear",
 				"StoresSilver, MonthYear join(StoresSilver@STORE_ID == OrdersSilver@STORE_ID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
