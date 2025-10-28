@@ -73,7 +73,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> DropColumns",
-				"DropColumns derive() ~> SubtotalAndUpdatedTimestampOrders"
+				"DropColumns derive(SUBTOTAL = ERROR_FUNCTION('')) ~> SubtotalAndUpdatedTimestampOrders"
 			]
 		}
 	}
