@@ -78,7 +78,7 @@
 				"     format: 'parquet') ~> OrdersSilver",
 				"OrdersSilver filter(ORDER_STATUS != 'CANCELLED') ~> ExcludeCancelled",
 				"ExcludeCancelled derive(MONTH_YEAR = toString(ORDER_DATE, 'MM-yyyy')) ~> MonthYear",
-				"ProductsSilver, OrdersSilver join(ProductsSilver@PRODUCT_ID == ERROR_FUNCTION(''),",
+				"ProductsSilver, OrdersSilver join(ProductsSilver@PRODUCT_ID == OrdersSilver@PRODUCT_ID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
