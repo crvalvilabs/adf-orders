@@ -89,7 +89,7 @@
 				"JoinProductsOrders aggregate(groupBy(PRODUCT_NAME,",
 				"          MONTH_YEAR,",
 				"          ORDER_STATUS),",
-				"     TOTAL_AMOUNT = sum(SUBTOTAL)) ~> GroupBy"
+				"     TOTAL_AMOUNT = round(sum(SUBTOTAL))) ~> GroupBy"
 			]
 		}
 	}
