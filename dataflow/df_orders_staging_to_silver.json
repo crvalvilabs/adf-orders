@@ -29,6 +29,9 @@
 				},
 				{
 					"name": "SubtotalAndUpdatedTimestampOrders"
+				},
+				{
+					"name": "RearrengeColumnsOrders"
 				}
 			],
 			"scriptLines": [
@@ -73,7 +76,22 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> DropColumns",
-				"DropColumns derive(SUBTOTAL = UNIT_PRICE * QUANTITY) ~> SubtotalAndUpdatedTimestampOrders"
+				"DropColumns derive(SUBTOTAL = UNIT_PRICE * QUANTITY,",
+				"          UPDATED_TIMESTAMP = currentUTC()) ~> SubtotalAndUpdatedTimestampOrders",
+				"SubtotalAndUpdatedTimestampOrders select(mapColumn(",
+				"          ORDER_ID,",
+				"          ORDER_DATE,",
+				"          CUSTOMER_ID,",
+				"          ORDER_STATUS,",
+				"          STORE_ID,",
+				"          PRODUCT_ID,",
+				"          UNIT_PRICE,",
+				"          QUANTITY,",
+				"          UPDATED_TIMESTAMP,",
+				"          SUBTOTAL",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RearrengeColumnsOrders"
 			]
 		}
 	}
