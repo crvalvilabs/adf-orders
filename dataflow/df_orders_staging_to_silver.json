@@ -35,6 +35,10 @@
 					"name": "OrdersSilver"
 				},
 				{
+					"dataset": {
+						"referenceName": "ds_products_silver",
+						"type": "DatasetReference"
+					},
 					"name": "ProductsSilver"
 				}
 			],
@@ -134,6 +138,10 @@
 				"     skipDuplicateMapOutputs: true) ~> OrdersSilver",
 				"UpdatedTimestamp sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> ProductsSilver"
 			]
