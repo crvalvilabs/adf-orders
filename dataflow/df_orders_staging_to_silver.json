@@ -23,6 +23,9 @@
 			"transformations": [
 				{
 					"name": "OrdersOrdersItemsJoin"
+				},
+				{
+					"name": "DropColumns"
 				}
 			],
 			"scriptLines": [
@@ -53,7 +56,20 @@
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> OrdersOrdersItemsJoin"
+				"     broadcast: 'auto')~> OrdersOrdersItemsJoin",
+				"OrdersOrdersItemsJoin select(mapColumn(",
+				"          ORDER_ID = OrdersStaging@ORDER_ID,",
+				"          ORDER_DATE,",
+				"          CUSTOMER_ID,",
+				"          ORDER_STATUS,",
+				"          STORE_ID,",
+				"          PRODUCT_ID,",
+				"          UNIT_PRICE,",
+				"          QUANTITY,",
+				"          UPDATED_TIMESTAMP = OrdersItemsStaging@UPDATED_TIMESTAMP",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> DropColumns"
 			]
 		}
 	}
