@@ -1,5 +1,5 @@
 {
-	"name": "ds_stores_orders_monthly",
+	"name": "ds_stores_orders_monthly_gold",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_dl_orders",
