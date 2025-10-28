@@ -42,6 +42,9 @@
 				},
 				{
 					"name": "JoinStoresOrders"
+				},
+				{
+					"name": "aggregate1"
 				}
 			],
 			"scriptLines": [
@@ -97,7 +100,8 @@
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> JoinStoresOrders"
+				"     broadcast: 'auto')~> JoinStoresOrders",
+				"JoinStoresOrders aggregate() ~> aggregate1"
 			]
 		}
 	}
