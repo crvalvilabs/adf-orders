@@ -1,5 +1,5 @@
 {
-	"name": "df_orders_staging_to_silver",
+	"name": "df_store_staging_to_silver",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
