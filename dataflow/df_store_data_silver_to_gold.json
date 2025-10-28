@@ -105,7 +105,8 @@
 				"          LATITUDE,",
 				"          LONGITUDE,",
 				"          ORDER_STATUS,",
-				"          MONTH_YEAR)) ~> GroupByStoreMonthYear"
+				"          MONTH_YEAR),",
+				"     TOTAL_AMOUNT = round(sum(SUBTOTAL), 2)) ~> GroupByStoreMonthYear"
 			]
 		}
 	}
