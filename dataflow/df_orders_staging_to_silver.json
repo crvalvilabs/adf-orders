@@ -47,6 +47,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "ProductsSilver"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_stores_silver",
+						"type": "DatasetReference"
+					},
+					"name": "StoresSilver"
 				}
 			],
 			"transformations": [
@@ -64,6 +71,9 @@
 				},
 				{
 					"name": "UpdatedTimestamp"
+				},
+				{
+					"name": "UpdatesTimestampStores"
 				}
 			],
 			"scriptLines": [
@@ -146,6 +156,7 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> RearrengeColumnsOrders",
 				"ProductsStaging derive(UPDATED_TIMESTAMP = currentUTC()) ~> UpdatedTimestamp",
+				"StoresStaging derive(UPDATED_TIMESTAMP = currentUTC()) ~> UpdatesTimestampStores",
 				"RearrengeColumnsOrders sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
@@ -161,7 +172,15 @@
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> ProductsSilver"
+				"     skipDuplicateMapOutputs: true) ~> ProductsSilver",
+				"UpdatesTimestampStores sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> StoresSilver"
 			]
 		}
 	}
