@@ -74,7 +74,7 @@
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> OrdersSilver",
 				"OrdersSilver filter(ORDER_STATUS != 'CANCELLED') ~> ExcludeCancelled",
-				"ExcludeCancelled derive() ~> MonthYear"
+				"ExcludeCancelled derive(MonthYear = ERROR_FUNCTION('')) ~> MonthYear"
 			]
 		}
 	}
