@@ -14,7 +14,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "products.json",
-				"fileSystem": "raw"
+				"fileSystem": "bronze"
 			}
 		},
 		"schema": {}
