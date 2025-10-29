@@ -287,6 +287,16 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Validation ",
+				"type": "Validation",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"timeout": "0.12:00:00",
+					"sleep": 10
+				}
 			}
 		],
 		"annotations": []
