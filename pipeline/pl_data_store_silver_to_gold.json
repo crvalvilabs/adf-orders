@@ -23,12 +23,6 @@
 				}
 			},
 			{
-				"name": "Fail1",
-				"type": "Fail",
-				"dependsOn": [],
-				"userProperties": []
-			},
-			{
 				"name": "Get Metadata1",
 				"type": "GetMetadata",
 				"dependsOn": [],
@@ -40,6 +34,17 @@
 					"secureInput": false
 				},
 				"userProperties": []
+			},
+			{
+				"name": "Move data to silver Error",
+				"description": "Register a failure message",
+				"type": "Fail",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"message": "The data move process encountered an error during processing.",
+					"errorCode": "500"
+				}
 			}
 		],
 		"annotations": []
