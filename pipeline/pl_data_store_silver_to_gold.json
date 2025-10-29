@@ -27,7 +27,7 @@
 				}
 			},
 			{
-				"name": "Get Metadata",
+				"name": "Get Metadata Products",
 				"type": "GetMetadata",
 				"dependsOn": [
 					{
@@ -44,7 +44,21 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_products_orders_monthly_gold",
+						"type": "DatasetReference"
+					},
+					"fieldList": [],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "ParquetReadSettings"
+					}
+				}
 			},
 			{
 				"name": "Move data to silver Error",
@@ -62,6 +76,40 @@
 				"typeProperties": {
 					"message": "The data move process encountered an error during processing.",
 					"errorCode": "500"
+				}
+			},
+			{
+				"name": "Get Metadata Stores",
+				"type": "GetMetadata",
+				"dependsOn": [
+					{
+						"activity": "Get Metadata Products",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.00:10:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_products_orders_monthly_gold",
+						"type": "DatasetReference"
+					},
+					"fieldList": [],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "ParquetReadSettings"
+					}
 				}
 			}
 		],
