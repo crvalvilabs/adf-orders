@@ -19,7 +19,11 @@
 					"name": "StoresLanding"
 				},
 				{
-					"name": "source2"
+					"dataset": {
+						"referenceName": "ds_landing_customer",
+						"type": "DatasetReference"
+					},
+					"name": "CustomersLanding"
 				},
 				{
 					"name": "source3"
@@ -37,10 +41,18 @@
 					"name": "ProductsRaw"
 				},
 				{
-					"name": "sink1"
+					"dataset": {
+						"referenceName": "ds_raw_stores",
+						"type": "DatasetReference"
+					},
+					"name": "StoresRaw"
 				},
 				{
-					"name": "sink2"
+					"dataset": {
+						"referenceName": "ds_raw_customer",
+						"type": "DatasetReference"
+					},
+					"name": "CustomersRaw"
 				},
 				{
 					"name": "sink3"
@@ -60,7 +72,9 @@
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> StoresLanding",
 				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> source2",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> CustomersLanding",
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false) ~> source3",
 				"source(allowSchemaDrift: true,",
@@ -74,12 +88,18 @@
 				"     skipDuplicateMapOutputs: true) ~> ProductsRaw",
 				"StoresLanding sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1",
-				"source2 sink(allowSchemaDrift: true,",
+				"     skipDuplicateMapOutputs: true) ~> StoresRaw",
+				"CustomersLanding sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink2",
+				"     skipDuplicateMapOutputs: true) ~> CustomersRaw",
 				"source3 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
