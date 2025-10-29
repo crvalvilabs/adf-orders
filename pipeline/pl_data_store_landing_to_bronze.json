@@ -19,7 +19,7 @@
 				}
 			},
 			{
-				"name": "Copy stores to bronze",
+				"name": "Copy Stores to bronze",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -35,7 +35,7 @@
 				}
 			},
 			{
-				"name": "Copy orders",
+				"name": "Copy Orders to bronze",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -51,7 +51,7 @@
 				}
 			},
 			{
-				"name": "Copy data4",
+				"name": "Copy orders items to bronze",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -67,7 +67,7 @@
 				}
 			},
 			{
-				"name": "Copy data5",
+				"name": "Copy Customers to bronze",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
