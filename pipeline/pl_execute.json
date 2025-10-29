@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Landing to bronze",
+				"name": "Landing to Bronze",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"policy": {
@@ -27,6 +27,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_data_store_bronze_to_staging",
+						"type": "PipelineReference"
+					},
 					"waitOnCompletion": true
 				}
 			},
