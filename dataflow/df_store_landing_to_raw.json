@@ -70,7 +70,11 @@
 					"name": "OrdersRaw"
 				},
 				{
-					"name": "sink4"
+					"dataset": {
+						"referenceName": "ds_raw_order_items",
+						"type": "DatasetReference"
+					},
+					"name": "OrdersItemsRaw"
 				}
 			],
 			"transformations": [],
@@ -125,8 +129,11 @@
 				"     skipDuplicateMapOutputs: true) ~> OrdersRaw",
 				"OrdersItemsLanding sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink4"
+				"     skipDuplicateMapOutputs: true) ~> OrdersItemsRaw"
 			]
 		}
 	}
