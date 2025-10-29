@@ -39,7 +39,7 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"message": "Error moviom",
+					"message": "Error moving data files from landingto bronze.",
 					"errorCode": "500"
 				}
 			}
