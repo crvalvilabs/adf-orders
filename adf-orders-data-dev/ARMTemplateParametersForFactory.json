@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adf-orders-data-dev"
+		},
+		"ls_blb_orders_connectionString": {
+			"value": ""
+		},
+		"ls_dl_orders_accountKey": {
+			"value": ""
+		},
+		"ls_dl_orders_properties_typeProperties_url": {
+			"value": "https://dlordersdata001.dfs.core.windows.net/"
+		}
+	}
+}
