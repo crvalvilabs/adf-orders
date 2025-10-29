@@ -1,49 +1,6 @@
 {
 	"name": "pl_data_store_landing_to_bronze",
 	"properties": {
-		"activities": [
-			{
-				"name": "Moving data from landing to bronze",
-				"type": "ExecuteDataFlow",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.00:10:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"dataflow": {
-						"referenceName": "df_store_landing_to_raw",
-						"type": "DataFlowReference"
-					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
-					},
-					"traceLevel": "Fine"
-				}
-			},
-			{
-				"name": "Error moving data to bronze",
-				"type": "Fail",
-				"dependsOn": [
-					{
-						"activity": "Moving data from landing to bronze",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"message": "Error moving data files from landingto bronze.",
-					"errorCode": "500"
-				}
-			}
-		],
 		"annotations": []
 	}
 }
