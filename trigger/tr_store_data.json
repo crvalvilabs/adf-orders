@@ -1,0 +1,25 @@
+{
+	"name": "tr_store_data",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pl_execute",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 5,
+				"startTime": "2025-10-28T20:03:00",
+				"endTime": "2025-10-28T20:15:00",
+				"timeZone": "Central America Standard Time"
+			}
+		}
+	}
+}
