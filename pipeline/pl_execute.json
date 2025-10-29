@@ -19,7 +19,7 @@
 				}
 			},
 			{
-				"name": "Execute Pipeline1",
+				"name": "Bronze to Staging",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"policy": {
@@ -32,6 +32,18 @@
 			},
 			{
 				"name": "Execute Pipeline2",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Execute Pipeline3",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"policy": {
