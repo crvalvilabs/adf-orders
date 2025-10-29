@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Products_AndStoresFlow ",
+				"name": "Products And Stores Flow",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -15,6 +15,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"dataflow": {
+						"referenceName": "df_store_data_silver_to_gold",
+						"type": "DataFlowReference"
+					},
 					"compute": {
 						"coreCount": 8,
 						"computeType": "General"
@@ -23,18 +27,18 @@
 				}
 			},
 			{
-				"name": "Get Metadata1",
+				"name": "Get Metadata",
 				"type": "GetMetadata",
 				"dependsOn": [
 					{
-						"activity": "Products_AndStoresFlow ",
+						"activity": "Products And Stores Flow",
 						"dependencyConditions": [
 							"Succeeded"
 						]
 					}
 				],
 				"policy": {
-					"timeout": "0.12:00:00",
+					"timeout": "0.00:10:00",
 					"retry": 0,
 					"retryIntervalInSeconds": 30,
 					"secureOutput": false,
@@ -48,7 +52,7 @@
 				"type": "Fail",
 				"dependsOn": [
 					{
-						"activity": "Products_AndStoresFlow ",
+						"activity": "Products And Stores Flow",
 						"dependencyConditions": [
 							"Failed"
 						]
