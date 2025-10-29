@@ -14,7 +14,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "orders.parquet",
-				"fileSystem": "raw"
+				"fileSystem": "bronze"
 			},
 			"compressionCodec": "snappy"
 		},
