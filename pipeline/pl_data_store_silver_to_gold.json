@@ -61,7 +61,7 @@
 				}
 			},
 			{
-				"name": "Move data to silver Error",
+				"name": "Move data to gold Error",
 				"description": "Register a failure message",
 				"type": "Fail",
 				"dependsOn": [
@@ -99,7 +99,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "ds_products_orders_monthly_gold",
+						"referenceName": "ds_stores_orders_monthly_gold",
 						"type": "DatasetReference"
 					},
 					"fieldList": [],
