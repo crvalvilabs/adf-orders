@@ -27,42 +27,6 @@
 				}
 			},
 			{
-				"name": "Get Metadata Products",
-				"type": "GetMetadata",
-				"dependsOn": [
-					{
-						"activity": "Products And Stores Flow",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.00:10:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"dataset": {
-						"referenceName": "ds_products_orders_monthly_gold",
-						"type": "DatasetReference"
-					},
-					"fieldList": [
-						"structure"
-					],
-					"storeSettings": {
-						"type": "AzureBlobFSReadSettings",
-						"enablePartitionDiscovery": false
-					},
-					"formatSettings": {
-						"type": "ParquetReadSettings"
-					}
-				}
-			},
-			{
 				"name": "Move data to gold Error",
 				"description": "Register a failure message",
 				"type": "Fail",
@@ -78,42 +42,6 @@
 				"typeProperties": {
 					"message": "The data move process encountered an error during processing.",
 					"errorCode": "500"
-				}
-			},
-			{
-				"name": "Get Metadata Stores",
-				"type": "GetMetadata",
-				"dependsOn": [
-					{
-						"activity": "Get Metadata Products",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.00:10:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"dataset": {
-						"referenceName": "ds_stores_orders_monthly_gold",
-						"type": "DatasetReference"
-					},
-					"fieldList": [
-						"structure"
-					],
-					"storeSettings": {
-						"type": "AzureBlobFSReadSettings",
-						"enablePartitionDiscovery": false
-					},
-					"formatSettings": {
-						"type": "ParquetReadSettings"
-					}
 				}
 			}
 		],
