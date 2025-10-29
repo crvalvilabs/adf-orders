@@ -12,7 +12,11 @@
 					"name": "ProductsLanding"
 				},
 				{
-					"name": "source1"
+					"dataset": {
+						"referenceName": "ds_landing_stores",
+						"type": "DatasetReference"
+					},
+					"name": "StoresLanding"
 				},
 				{
 					"name": "source2"
@@ -37,6 +41,12 @@
 				},
 				{
 					"name": "sink2"
+				},
+				{
+					"name": "sink3"
+				},
+				{
+					"name": "sink4"
 				}
 			],
 			"transformations": [],
@@ -46,7 +56,9 @@
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> ProductsLanding",
 				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> source1",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> StoresLanding",
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false) ~> source2",
 				"source(allowSchemaDrift: true,",
@@ -60,14 +72,22 @@
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> ProductsRaw",
-				"source1 sink(allowSchemaDrift: true,",
+				"StoresLanding sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> sink1",
 				"source2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink2"
+				"     skipDuplicateMapOutputs: true) ~> sink2",
+				"source3 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink3",
+				"source4 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink4"
 			]
 		}
 	}
