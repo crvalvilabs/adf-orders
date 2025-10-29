@@ -3,7 +3,23 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Execute Store Pipeline",
+				"name": "Landing to bronze",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_data_store_landing_to_raw",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Execute Pipeline1",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"policy": {
@@ -15,24 +31,16 @@
 				}
 			},
 			{
-				"name": "Get Metadata",
-				"type": "GetMetadata",
-				"dependsOn": [
-					{
-						"activity": "Execute Store Pipeline",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"name": "Execute Pipeline2",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
 				"policy": {
-					"timeout": "0.00:10:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"waitOnCompletion": true
+				}
 			}
 		],
 		"annotations": []
