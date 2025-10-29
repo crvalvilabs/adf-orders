@@ -1,5 +1,5 @@
 {
-	"name": "pl_data_store_landing_to_raw",
+	"name": "pl_data_store_landing_to_bronze",
 	"properties": {
 		"activities": [
 			{

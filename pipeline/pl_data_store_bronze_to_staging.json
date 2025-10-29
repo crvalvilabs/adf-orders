@@ -1,5 +1,5 @@
 {
-	"name": "pl_store_data_raw_to_staging",
+	"name": "pl_data_store_bronze_to_staging",
 	"properties": {
 		"activities": [
 			{
