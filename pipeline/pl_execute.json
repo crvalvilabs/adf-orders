@@ -35,7 +35,7 @@
 				}
 			},
 			{
-				"name": "Execute Pipeline2",
+				"name": "Staging to Silver",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"policy": {
@@ -43,11 +43,15 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_data_store_staging_to_silver",
+						"type": "PipelineReference"
+					},
 					"waitOnCompletion": true
 				}
 			},
 			{
-				"name": "Execute Pipeline3",
+				"name": "Silver to Gold",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"policy": {
@@ -55,6 +59,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_data_store_silver_to_gold",
+						"type": "PipelineReference"
+					},
 					"waitOnCompletion": true
 				}
 			}

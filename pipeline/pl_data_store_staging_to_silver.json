@@ -1,5 +1,5 @@
 {
-	"name": "pl_data_store_silver_to_store",
+	"name": "pl_data_store_staging_to_silver",
 	"properties": {
 		"activities": [
 			{
