@@ -8,12 +8,20 @@
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
+					"expression": {
+						"value": "@activity('Lookup').output",
+						"type": "Expression"
+					},
 					"ifFalseActivities": [
 						{
-							"name": "Fail1",
+							"name": "Fail",
 							"type": "Fail",
 							"dependsOn": [],
-							"userProperties": []
+							"userProperties": [],
+							"typeProperties": {
+								"message": "File not found",
+								"errorCode": "404"
+							}
 						}
 					],
 					"ifTrueActivities": [
