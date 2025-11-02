@@ -14,6 +14,16 @@
 					"secureInput": false
 				},
 				"userProperties": []
+			},
+			{
+				"name": "vFileName",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": []
 			}
 		],
 		"annotations": []
