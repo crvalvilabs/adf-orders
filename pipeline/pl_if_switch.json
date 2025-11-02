@@ -19,82 +19,6 @@
 								"errorCode": "404"
 							}
 						}
-					],
-					"ifTrueActivities": [
-						{
-							"name": "Lookup",
-							"type": "Lookup",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.00:10:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "DelimitedTextSource",
-									"storeSettings": {
-										"type": "AzureBlobFSReadSettings",
-										"recursive": true,
-										"wildcardFileName": "*29.csv",
-										"enablePartitionDiscovery": false
-									},
-									"formatSettings": {
-										"type": "DelimitedTextReadSettings"
-									}
-								},
-								"dataset": {
-									"referenceName": "test_source",
-									"type": "DatasetReference"
-								}
-							}
-						},
-						{
-							"name": "Get Metadata",
-							"type": "GetMetadata",
-							"dependsOn": [
-								{
-									"activity": "Lookup",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.00:10:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"dataset": {
-									"referenceName": "test_source",
-									"type": "DatasetReference"
-								},
-								"fieldList": [
-									{
-										"value": "@activity('Lookup').output",
-										"type": "Expression"
-									},
-									{
-										"value": "@activity('Lookup').output.firstRow",
-										"type": "Expression"
-									}
-								],
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							}
-						}
 					]
 				}
 			},
@@ -106,6 +30,19 @@
 				"typeProperties": {
 					"cases": []
 				}
+			},
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:10:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": []
 			}
 		],
 		"annotations": []
