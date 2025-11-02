@@ -68,6 +68,10 @@
 									{
 										"value": "@activity('Lookup').output",
 										"type": "Expression"
+									},
+									{
+										"value": "@activity('Lookup').output.firstRow",
+										"type": "Expression"
 									}
 								],
 								"storeSettings": {
