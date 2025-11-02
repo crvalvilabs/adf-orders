@@ -15,10 +15,6 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"expression": {
-						"value": "@first(activity('Lookup').output.firstRow)",
-						"type": "Expression"
-					},
 					"ifFalseActivities": [
 						{
 							"name": "Fail",
