@@ -1,6 +1,27 @@
 {
 	"name": "pl_variables",
 	"properties": {
+		"activities": [
+			{
+				"name": "Folder Name",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "vFolderName",
+					"value": ""
+				}
+			}
+		],
+		"variables": {
+			"vFolderName": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
