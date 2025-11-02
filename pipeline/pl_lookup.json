@@ -30,7 +30,8 @@
 					"dataset": {
 						"referenceName": "test_source",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			}
 		],
