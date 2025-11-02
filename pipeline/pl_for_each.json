@@ -32,20 +32,6 @@
 				}
 			},
 			{
-				"name": "File Name",
-				"type": "SetVariable",
-				"dependsOn": [],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "vFileName",
-					"value": ""
-				}
-			},
-			{
 				"name": "ForEach",
 				"type": "ForEach",
 				"dependsOn": [
@@ -64,39 +50,6 @@
 					},
 					"isSequential": true
 				}
-			},
-			{
-				"name": "Copy data",
-				"type": "Copy",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.00:10:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "AzureBlobFSReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
-					},
-					"enableStaging": false
-				},
-				"inputs": [
-					{
-						"referenceName": "test_source",
-						"type": "DatasetReference"
-					}
-				]
 			}
 		],
 		"variables": {
