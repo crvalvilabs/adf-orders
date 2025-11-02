@@ -22,7 +22,14 @@
 			{
 				"name": "Copy data",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Folder Name",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.00:10:00",
 					"retry": 0,
@@ -74,7 +81,13 @@
 				"outputs": [
 					{
 						"referenceName": "test_sink",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"pPathName": {
+								"value": "@variables('vFolderName')",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}
