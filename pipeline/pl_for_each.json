@@ -133,6 +133,10 @@
 										"pPathName": {
 											"value": "@concat('sink/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
 											"type": "Expression"
+										},
+										"pFilename": {
+											"value": "@concat(concat(variables('vToday'), '-'), variables('vFileName'))",
+											"type": "Expression"
 										}
 									}
 								}
