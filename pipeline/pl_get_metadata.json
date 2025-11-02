@@ -20,7 +20,6 @@
 						"type": "DatasetReference"
 					},
 					"fieldList": [
-						"childItems",
 						"exists",
 						"itemName",
 						"itemType",
@@ -52,7 +51,12 @@
 						"referenceName": "test_source",
 						"type": "DatasetReference"
 					},
-					"fieldList": [],
+					"fieldList": [
+						"columnCount",
+						"lastModified",
+						"itemType",
+						"size"
+					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
 						"enablePartitionDiscovery": false
