@@ -131,7 +131,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"pPathName": {
-											"value": "sink",
+											"value": "@concat(variables('vToday'), variables('vFileName'))",
 											"type": "Expression"
 										}
 									}
