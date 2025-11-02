@@ -5,13 +5,16 @@
 			"referenceName": "ls_dl_orders",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "02 Bronze"
+		},
 		"annotations": [],
 		"type": "Json",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "stores.json",
-				"fileSystem": "raw"
+				"fileSystem": "bronze"
 			}
 		},
 		"schema": {}

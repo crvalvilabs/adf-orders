@@ -1,0 +1,40 @@
+{
+	"name": "ds_customer_staging",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_dl_orders",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "03 Staging"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "customer",
+				"fileSystem": "staging"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "CUSTOMER_ID",
+				"type": "INT32"
+			},
+			{
+				"name": "EMAIL_ADDRESS",
+				"type": "UTF8"
+			},
+			{
+				"name": "FULL_NAME",
+				"type": "UTF8"
+			},
+			{
+				"name": "UPDATED_TIMESTAMP",
+				"type": "INT96"
+			}
+		]
+	}
+}

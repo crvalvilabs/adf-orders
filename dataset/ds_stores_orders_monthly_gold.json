@@ -1,24 +1,24 @@
 {
-	"name": "ds_raw_orders",
+	"name": "ds_stores_orders_monthly_gold",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_dl_orders",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "02 Bronze"
+			"name": "05 Gold"
 		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "orders.parquet",
-				"fileSystem": "bronze"
+				"fileName": "stores_orders_monthly.parquet",
+				"folderPath": "stores_orders_monthly",
+				"fileSystem": "gold"
 			},
 			"compressionCodec": "snappy"
 		},
 		"schema": []
-	},
-	"type": "Microsoft.DataFactory/factories/datasets"
+	}
 }

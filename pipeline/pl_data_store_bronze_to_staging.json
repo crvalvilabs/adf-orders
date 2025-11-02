@@ -1,0 +1,50 @@
+{
+	"name": "pl_data_store_bronze_to_staging",
+	"properties": {
+		"activities": [
+			{
+				"name": "df_store_data_staging",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.00:10:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "df_store_data_raw_to_staging",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "Move data to staging Error",
+				"description": "Register a failure message",
+				"type": "Fail",
+				"dependsOn": [
+					{
+						"activity": "df_store_data_staging",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"message": "The data move process encountered an error during processing.",
+					"errorCode": "500"
+				}
+			}
+		],
+		"annotations": []
+	}
+}

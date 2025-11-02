@@ -1,0 +1,212 @@
+{
+	"name": "df_store_staging_to_silver",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_orders_staging",
+						"type": "DatasetReference"
+					},
+					"name": "OrdersStaging"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_order_item_staging",
+						"type": "DatasetReference"
+					},
+					"name": "OrdersItemsStaging"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_products_staging",
+						"type": "DatasetReference"
+					},
+					"name": "ProductsStaging"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_store_staging",
+						"type": "DatasetReference"
+					},
+					"name": "StoresStaging"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_orders_silver",
+						"type": "DatasetReference"
+					},
+					"name": "OrdersSilver"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_products_silver",
+						"type": "DatasetReference"
+					},
+					"name": "ProductsSilver"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_stores_silver",
+						"type": "DatasetReference"
+					},
+					"name": "StoresSilver"
+				}
+			],
+			"transformations": [
+				{
+					"name": "OrdersOrdersItemsJoin"
+				},
+				{
+					"name": "DropColumns"
+				},
+				{
+					"name": "SubtotalAndUpdatedTimestampOrders"
+				},
+				{
+					"name": "RearrengeColumnsOrders"
+				},
+				{
+					"name": "UpdatedTimestamp"
+				},
+				{
+					"name": "UpdatesTimestampStores"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ORDER_ID as integer,",
+				"          ORDER_DATE as date,",
+				"          CUSTOMER_ID as integer,",
+				"          ORDER_STATUS as string,",
+				"          STORE_ID as integer,",
+				"          UPDATED_TIMESTAMP as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> OrdersStaging",
+				"source(output(",
+				"          ORDER_ID as integer,",
+				"          PRODUCT_ID as integer,",
+				"          UNIT_PRICE as double,",
+				"          QUANTITY as integer,",
+				"          UPDATED_TIMESTAMP as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> OrdersItemsStaging",
+				"source(output(",
+				"          PRODUCT_ID as integer,",
+				"          PRODUCT_NAME as string,",
+				"          UNIT_PRICE as double,",
+				"          UPDATED_TIMESTAMP as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> ProductsStaging",
+				"source(output(",
+				"          STORE_ID as integer,",
+				"          STORE_NAME as string,",
+				"          LATITUDE as double,",
+				"          LONGITUDE as double,",
+				"          UPDATED_TIMESTAMP as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> StoresStaging",
+				"OrdersStaging, OrdersItemsStaging join(OrdersStaging@ORDER_ID == OrdersItemsStaging@ORDER_ID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> OrdersOrdersItemsJoin",
+				"OrdersOrdersItemsJoin select(mapColumn(",
+				"          ORDER_ID = OrdersStaging@ORDER_ID,",
+				"          ORDER_DATE,",
+				"          CUSTOMER_ID,",
+				"          ORDER_STATUS,",
+				"          STORE_ID,",
+				"          PRODUCT_ID,",
+				"          UNIT_PRICE,",
+				"          QUANTITY,",
+				"          UPDATED_TIMESTAMP = OrdersItemsStaging@UPDATED_TIMESTAMP",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> DropColumns",
+				"DropColumns derive(SUBTOTAL = UNIT_PRICE * QUANTITY,",
+				"          UPDATED_TIMESTAMP = currentUTC()) ~> SubtotalAndUpdatedTimestampOrders",
+				"SubtotalAndUpdatedTimestampOrders select(mapColumn(",
+				"          ORDER_ID,",
+				"          ORDER_DATE,",
+				"          CUSTOMER_ID,",
+				"          ORDER_STATUS,",
+				"          STORE_ID,",
+				"          PRODUCT_ID,",
+				"          UNIT_PRICE,",
+				"          QUANTITY,",
+				"          SUBTOTAL,",
+				"          UPDATED_TIMESTAMP",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RearrengeColumnsOrders",
+				"ProductsStaging derive(UPDATED_TIMESTAMP = currentUTC()) ~> UpdatedTimestamp",
+				"StoresStaging derive(UPDATED_TIMESTAMP = currentUTC()) ~> UpdatesTimestampStores",
+				"RearrengeColumnsOrders sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          ORDER_ID as integer,",
+				"          ORDER_DATE as date,",
+				"          CUSTOMER_ID as integer,",
+				"          ORDER_STATUS as string,",
+				"          STORE_ID as integer,",
+				"          PRODUCT_ID as integer,",
+				"          UNIT_PRICE as double,",
+				"          QUANTITY as integer,",
+				"          SUBTOTAL as double,",
+				"          UPDATED_TIMESTAMP as timestamp",
+				"     ),",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> OrdersSilver",
+				"UpdatedTimestamp sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          PRODUCT_ID as integer,",
+				"          PRODUCT_NAME as string,",
+				"          UNIT_PRICE as double,",
+				"          UPDATED_TIMESTAMP as timestamp",
+				"     ),",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> ProductsSilver",
+				"UpdatesTimestampStores sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          STORE_ID as integer,",
+				"          STORE_NAME as string,",
+				"          LATITUDE as double,",
+				"          LONGITUDE as double,",
+				"          UPDATED_TIMESTAMP as timestamp",
+				"     ),",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> StoresSilver"
+			]
+		}
+	}
+}

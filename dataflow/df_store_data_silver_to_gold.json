@@ -1,0 +1,146 @@
+{
+	"name": "df_store_data_silver_to_gold",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_products_silver",
+						"type": "DatasetReference"
+					},
+					"name": "ProductsSilver"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_stores_silver",
+						"type": "DatasetReference"
+					},
+					"name": "StoresSilver"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_orders_silver",
+						"type": "DatasetReference"
+					},
+					"name": "OrdersSilver"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_products_orders_monthly_gold",
+						"type": "DatasetReference"
+					},
+					"name": "ProductsOrdersMonthYearGold"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_stores_orders_monthly_gold",
+						"type": "DatasetReference"
+					},
+					"name": "StoreOrdersMonthYear"
+				}
+			],
+			"transformations": [
+				{
+					"name": "ExcludeCancelled"
+				},
+				{
+					"name": "MonthYear"
+				},
+				{
+					"name": "JoinProductsOrders"
+				},
+				{
+					"name": "GroupByProductNameAndMonthYear"
+				},
+				{
+					"name": "JoinStoresOrders"
+				},
+				{
+					"name": "GroupByStoreMonthYear"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          PRODUCT_ID as integer,",
+				"          PRODUCT_NAME as string,",
+				"          UNIT_PRICE as double,",
+				"          UPDATED_TIMESTAMP as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> ProductsSilver",
+				"source(output(",
+				"          STORE_ID as integer,",
+				"          STORE_NAME as string,",
+				"          LATITUDE as double,",
+				"          LONGITUDE as double,",
+				"          UPDATED_TIMESTAMP as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> StoresSilver",
+				"source(output(",
+				"          ORDER_ID as integer,",
+				"          ORDER_DATE as date,",
+				"          CUSTOMER_ID as integer,",
+				"          ORDER_STATUS as string,",
+				"          STORE_ID as integer,",
+				"          PRODUCT_ID as integer,",
+				"          UNIT_PRICE as double,",
+				"          QUANTITY as integer,",
+				"          SUBTOTAL as double,",
+				"          UPDATED_TIMESTAMP as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> OrdersSilver",
+				"OrdersSilver filter(ORDER_STATUS != 'CANCELLED') ~> ExcludeCancelled",
+				"ExcludeCancelled derive(MONTH_YEAR = toString(ORDER_DATE, 'MM-yyyy')) ~> MonthYear",
+				"ProductsSilver, MonthYear join(ProductsSilver@PRODUCT_ID == OrdersSilver@PRODUCT_ID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinProductsOrders",
+				"JoinProductsOrders aggregate(groupBy(PRODUCT_NAME,",
+				"          MONTH_YEAR,",
+				"          ORDER_STATUS),",
+				"     TOTAL_AMOUNT = round(sum(SUBTOTAL),2)) ~> GroupByProductNameAndMonthYear",
+				"StoresSilver, MonthYear join(StoresSilver@STORE_ID == OrdersSilver@STORE_ID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinStoresOrders",
+				"JoinStoresOrders aggregate(groupBy(STORE_NAME,",
+				"          LATITUDE,",
+				"          LONGITUDE,",
+				"          ORDER_STATUS,",
+				"          MONTH_YEAR),",
+				"     TOTAL_AMOUNT = round(sum(SUBTOTAL), 2)) ~> GroupByStoreMonthYear",
+				"GroupByProductNameAndMonthYear sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> ProductsOrdersMonthYearGold",
+				"GroupByStoreMonthYear sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> StoreOrdersMonthYear"
+			]
+		}
+	}
+}
