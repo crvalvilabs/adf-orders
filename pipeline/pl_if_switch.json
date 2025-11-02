@@ -3,13 +3,13 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "If Condition1",
+				"name": "If Condition",
 				"type": "IfCondition",
 				"dependsOn": [],
 				"userProperties": []
 			},
 			{
-				"name": "Switch1",
+				"name": "Switch",
 				"type": "Switch",
 				"dependsOn": [],
 				"userProperties": [],
