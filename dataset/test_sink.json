@@ -5,6 +5,11 @@
 			"referenceName": "ls_dl_orders",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"pPathName": {
+				"type": "String"
+			}
+		},
 		"folder": {
 			"name": "test"
 		},
@@ -13,7 +18,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "sink",
+				"folderPath": {
+					"value": "@sink/2023-11-02dataset().pPathName",
+					"type": "Expression"
+				},
 				"fileSystem": "test"
 			},
 			"columnDelimiter": ",",
