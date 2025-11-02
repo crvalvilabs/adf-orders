@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@greater(length(activity('Lookup').output.value), 0)",
+						"value": "@not(empty(activity('Lookup').output.firstRow))",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [
