@@ -48,41 +48,7 @@
 						"value": "@activity('Get Metadata').output.childItems",
 						"type": "Expression"
 					},
-					"isSequential": true,
-					"activities": [
-						{
-							"name": "Get Filename",
-							"type": "GetMetadata",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.00:10:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"dataset": {
-									"referenceName": "test_source",
-									"type": "DatasetReference"
-								},
-								"fieldList": [
-									{
-										"value": "@item()",
-										"type": "Expression"
-									}
-								],
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							}
-						}
-					]
+					"isSequential": true
 				}
 			}
 		],
