@@ -8,6 +8,14 @@
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
+					"ifFalseActivities": [
+						{
+							"name": "Fail1",
+							"type": "Fail",
+							"dependsOn": [],
+							"userProperties": []
+						}
+					],
 					"ifTrueActivities": [
 						{
 							"name": "Lookup",
