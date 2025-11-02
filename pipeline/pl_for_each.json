@@ -70,7 +70,14 @@
 						{
 							"name": "Copy data",
 							"type": "Copy",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "vDate",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.00:10:00",
 								"retry": 0,
@@ -117,7 +124,10 @@
 							"userProperties": [],
 							"typeProperties": {
 								"variableName": "vToday",
-								"value": ""
+								"value": {
+									"value": "@formatDateTime(utcNow(), 'yyyy-MM-dd')",
+									"type": "Expression"
+								}
 							}
 						}
 					]
