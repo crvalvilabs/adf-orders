@@ -70,14 +70,7 @@
 						{
 							"name": "Copy data",
 							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "vNames",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "0.00:10:00",
 								"retry": 0,
@@ -107,7 +100,7 @@
 							]
 						},
 						{
-							"name": "Set variable1",
+							"name": "vDate",
 							"type": "SetVariable",
 							"dependsOn": [],
 							"policy": {
