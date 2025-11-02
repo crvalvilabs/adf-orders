@@ -8,10 +8,6 @@
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
-					"expression": {
-						"value": "@activity('Lookup').output",
-						"type": "Expression"
-					},
 					"ifFalseActivities": [
 						{
 							"name": "Fail",
