@@ -24,9 +24,6 @@
 						"type": "DatasetReference"
 					},
 					"name": "OrdersSilver"
-				},
-				{
-					"name": "source1"
 				}
 			],
 			"sinks": [
@@ -63,9 +60,6 @@
 				},
 				{
 					"name": "GroupByStoreMonthYear"
-				},
-				{
-					"name": "filter1"
 				}
 			],
 			"scriptLines": [
@@ -106,8 +100,6 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> OrdersSilver",
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> source1",
 				"OrdersSilver filter(ORDER_STATUS != 'CANCELLED') ~> ExcludeCancelled",
 				"ExcludeCancelled derive(MONTH_YEAR = toString(ORDER_DATE, 'MM-yyyy')) ~> MonthYear",
 				"ProductsSilver, MonthYear join(ProductsSilver@PRODUCT_ID == OrdersSilver@PRODUCT_ID,",
@@ -130,7 +122,6 @@
 				"          ORDER_STATUS,",
 				"          MONTH_YEAR),",
 				"     TOTAL_AMOUNT = round(sum(SUBTOTAL), 2)) ~> GroupByStoreMonthYear",
-				"source1 filter(ERROR_FUNCTION('')) ~> filter1",
 				"GroupByProductNameAndMonthYear sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
