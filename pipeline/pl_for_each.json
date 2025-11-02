@@ -131,7 +131,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"pPathName": {
-											"value": "@concat(variables('vToday'), variables('vFileName'))",
+											"value": "@concat('sink/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
 											"type": "Expression"
 										}
 									}
