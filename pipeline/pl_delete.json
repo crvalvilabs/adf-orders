@@ -15,7 +15,23 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"enableLogging": true
+					"dataset": {
+						"referenceName": "test_source",
+						"type": "DatasetReference"
+					},
+					"logStorageSettings": {
+						"linkedServiceName": {
+							"referenceName": "ls_dl_orders",
+							"type": "LinkedServiceReference"
+						},
+						"path": "test"
+					},
+					"enableLogging": true,
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					}
 				}
 			}
 		],
