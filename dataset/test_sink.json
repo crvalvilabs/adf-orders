@@ -19,7 +19,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"folderPath": {
-					"value": "@sink/2023-11-02dataset().pPathName",
+					"value": "@dataset().pPathName",
 					"type": "Expression"
 				},
 				"fileSystem": "test"
