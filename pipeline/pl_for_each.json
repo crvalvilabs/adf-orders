@@ -128,7 +128,13 @@
 							"outputs": [
 								{
 									"referenceName": "test_sink",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"pPathName": {
+											"value": "sink",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						},
