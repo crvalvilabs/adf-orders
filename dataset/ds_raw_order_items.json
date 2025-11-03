@@ -14,6 +14,10 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "order_items.txt",
+				"folderPath": {
+					"value": "@concat('order_items/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+					"type": "Expression"
+				},
 				"fileSystem": "bronze"
 			},
 			"columnDelimiter": ",",
