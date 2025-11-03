@@ -141,7 +141,7 @@
 				"     skipDuplicateMapOutputs: true) ~> DropColumns",
 				"DropColumns derive(SUBTOTAL = UNIT_PRICE * QUANTITY,",
 				"          UPDATED_TIMESTAMP = currentUTC(),",
-				"          ORDER_ITEM_ID = ERROR_FUNCTION('')) ~> SubtotalAndUpdatedTimestampOrders",
+				"          ORDER_ITEM_ID = toInteger(concat(toString(ORDER_ID), toString(PRODUCT_ID)))) ~> SubtotalAndUpdatedTimestampOrders",
 				"SubtotalAndUpdatedTimestampOrders select(mapColumn(",
 				"          ORDER_ID,",
 				"          ORDER_DATE,",
