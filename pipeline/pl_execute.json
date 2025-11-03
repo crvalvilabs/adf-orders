@@ -67,14 +67,7 @@
 			{
 				"name": "Silver to Gold",
 				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "Staging to Silver",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"secureInput": false
 				},
