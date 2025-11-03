@@ -190,7 +190,7 @@
 				"          UPDATED_TIMESTAMP as timestamp",
 				"     ),",
 				"     format: 'parquet',",
-				"     partitionFileNames:[''],",
+				"     partitionFileNames:['products.parquet'],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
@@ -207,11 +207,13 @@
 				"          UPDATED_TIMESTAMP as timestamp",
 				"     ),",
 				"     format: 'parquet',",
+				"     partitionFileNames:['stores.parquet'],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> StoresSilver"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> StoresSilver"
 			]
 		}
 	}
