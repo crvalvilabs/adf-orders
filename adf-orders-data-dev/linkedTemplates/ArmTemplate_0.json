@@ -71,7 +71,10 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "customer",
+						"folderPath": {
+							"value": "@concat('customers/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+							"type": "Expression"
+						},
 						"fileSystem": "staging"
 					},
 					"compressionCodec": "snappy"
@@ -256,7 +259,10 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "order_item",
+						"folderPath": {
+							"value": "@concat('order_items/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+							"type": "Expression"
+						},
 						"fileSystem": "staging"
 					},
 					"compressionCodec": "snappy"
@@ -374,7 +380,10 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "order",
+						"folderPath": {
+							"value": "@concat('orders/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+							"type": "Expression"
+						},
 						"fileSystem": "staging"
 					},
 					"compressionCodec": "snappy"
@@ -501,7 +510,10 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "product",
+						"folderPath": {
+							"value": "@concat('products/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+							"type": "Expression"
+						},
 						"fileSystem": "staging"
 					},
 					"compressionCodec": "snappy"
@@ -547,6 +559,10 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "customers.json",
+						"folderPath": {
+							"value": "@concat('customers/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+							"type": "Expression"
+						},
 						"fileSystem": "bronze"
 					}
 				},
@@ -574,6 +590,10 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "order_items.txt",
+						"folderPath": {
+							"value": "@concat('order_items/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+							"type": "Expression"
+						},
 						"fileSystem": "bronze"
 					},
 					"columnDelimiter": ",",
@@ -605,6 +625,10 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "orders.parquet",
+						"folderPath": {
+							"value": "@concat('orders/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+							"type": "Expression"
+						},
 						"fileSystem": "bronze"
 					},
 					"compressionCodec": "snappy"
@@ -633,6 +657,10 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "products.json",
+						"folderPath": {
+							"value": "@concat('products/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+							"type": "Expression"
+						},
 						"fileSystem": "bronze"
 					}
 				},
@@ -660,6 +688,10 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "stores.json",
+						"folderPath": {
+							"value": "@concat('stores/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+							"type": "Expression"
+						},
 						"fileSystem": "bronze"
 					}
 				},
@@ -686,7 +718,10 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "store",
+						"folderPath": {
+							"value": "@concat('stores/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+							"type": "Expression"
+						},
 						"fileSystem": "staging"
 					},
 					"compressionCodec": "snappy"

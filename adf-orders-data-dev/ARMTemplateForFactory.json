@@ -103,9 +103,16 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Moving data from landing to bronze",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
+						"name": "Copy Products to bronze",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Validation Products File",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.00:10:00",
 							"retry": 0,
@@ -115,46 +122,386 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"dataflow": {
-								"referenceName": "df_store_landing_to_raw",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"ProductsLanding": {},
-									"StoresLanding": {},
-									"CustomersLanding": {},
-									"OrdersLanding": {},
-									"OrdersItemsLanding": {},
-									"ProductsRaw": {},
-									"StoresRaw": {},
-									"CustomersRaw": {},
-									"OrdersRaw": {},
-									"OrdersItemsRaw": {}
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
 								}
 							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
 							},
-							"traceLevel": "Fine"
-						}
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_landing_products",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_raw_products",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					},
 					{
-						"name": "Error moving data to bronze",
-						"type": "Fail",
+						"name": "Copy Stores to bronze",
+						"type": "Copy",
 						"dependsOn": [
 							{
-								"activity": "Moving data from landing to bronze",
+								"activity": "Copy Products to bronze",
 								"dependencyConditions": [
-									"Failed"
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Validation Stores File",
+								"dependencyConditions": [
+									"Succeeded"
 								]
 							}
 						],
+						"policy": {
+							"timeout": "0.00:10:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
-							"message": "Error moving data files from landingto bronze.",
-							"errorCode": "500"
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_landing_stores",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_raw_stores",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy Orders to bronze",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Copy Stores to bronze",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Validation Orders File",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.00:10:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ParquetSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "ParquetReadSettings"
+								}
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "ParquetWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_landing_orders",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_raw_orders",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy Orders items to bronze",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Copy Orders to bronze",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Validation Orders Items File",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.00:10:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_landing_order_items",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_raw_order_items",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy Customers to bronze",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Copy Orders items to bronze",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Validation Customers File",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.00:10:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_landing_customer",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_raw_customer",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Validation Products File",
+						"type": "Validation",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "ds_landing_products",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"timeout": "0.00:10:00",
+							"sleep": 10
+						}
+					},
+					{
+						"name": "Validation Stores File",
+						"type": "Validation",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "ds_landing_stores",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"timeout": "0.00:10:00",
+							"sleep": 10
+						}
+					},
+					{
+						"name": "Validation Orders File",
+						"type": "Validation",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "ds_landing_orders",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"timeout": "0.00:10:00",
+							"sleep": 10
+						}
+					},
+					{
+						"name": "Validation Orders Items File",
+						"type": "Validation",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "ds_landing_order_items",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"timeout": "0.00:10:00",
+							"sleep": 10
+						}
+					},
+					{
+						"name": "Validation Customers File",
+						"type": "Validation",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "ds_landing_customer",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"timeout": "0.00:10:00",
+							"sleep": 10
 						}
 					}
 				],
@@ -164,7 +511,16 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/df_store_landing_to_raw')]"
+				"[concat(variables('factoryId'), '/datasets/ds_landing_products')]",
+				"[concat(variables('factoryId'), '/datasets/ds_raw_products')]",
+				"[concat(variables('factoryId'), '/datasets/ds_landing_stores')]",
+				"[concat(variables('factoryId'), '/datasets/ds_raw_stores')]",
+				"[concat(variables('factoryId'), '/datasets/ds_landing_orders')]",
+				"[concat(variables('factoryId'), '/datasets/ds_raw_orders')]",
+				"[concat(variables('factoryId'), '/datasets/ds_landing_order_items')]",
+				"[concat(variables('factoryId'), '/datasets/ds_raw_order_items')]",
+				"[concat(variables('factoryId'), '/datasets/ds_landing_customer')]",
+				"[concat(variables('factoryId'), '/datasets/ds_raw_customer')]"
 			]
 		},
 		{
@@ -304,6 +660,56 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pl_delete')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Delete",
+						"type": "Delete",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.00:10:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "test_source",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"logStorageSettings": {
+								"linkedServiceName": {
+									"referenceName": "ls_dl_orders",
+									"type": "LinkedServiceReference"
+								},
+								"path": "test"
+							},
+							"enableLogging": true,
+							"storeSettings": {
+								"type": "AzureBlobFSReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/test_source')]",
+				"[concat(variables('factoryId'), '/linkedServices/ls_dl_orders')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/pl_execute')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -377,6 +783,8 @@
 					{
 						"name": "Silver to Gold",
 						"type": "ExecutePipeline",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Staging to Silver",
@@ -412,6 +820,564 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pl_for_each')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Get Metadata",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.00:10:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "test_source",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "AzureBlobFSReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					},
+					{
+						"name": "ForEach",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Get Metadata",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Get Metadata').output.childItems",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "vNames",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "vFileName",
+										"value": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Copy data",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "vDate",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.00:10:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"wildcardFileName": "*",
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "test_source",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "test_sink",
+											"type": "DatasetReference",
+											"parameters": {
+												"pPathName": {
+													"value": "@concat('sink/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+													"type": "Expression"
+												},
+												"pFilename": {
+													"value": "@concat(concat(variables('vToday'), '-'), variables('vFileName'))",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								},
+								{
+									"name": "vDate",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "vNames",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "vToday",
+										"value": {
+											"value": "@formatDateTime(utcNow(), 'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"vFileName": {
+						"type": "String"
+					},
+					"vToday": {
+						"type": "String"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/test_source')]",
+				"[concat(variables('factoryId'), '/datasets/test_sink')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_get_metadata')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Get Directory Metadata",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.00:10:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "test_source",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"fieldList": [
+								"exists",
+								"itemName",
+								"itemType",
+								"lastModified"
+							],
+							"storeSettings": {
+								"type": "AzureBlobFSReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/test_source')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_if_switch')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "If Condition",
+						"type": "IfCondition",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "Lookup",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@not(empty(activity('Lookup').output.firstRow))",
+								"type": "Expression"
+							},
+							"ifFalseActivities": [
+								{
+									"name": "Fail",
+									"type": "Fail",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"message": "File not found",
+										"errorCode": "404"
+									}
+								}
+							],
+							"ifTrueActivities": [
+								{
+									"name": "Copy data",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.00:10:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"wildcardFileName": "order_items_*29.csv",
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "test_source",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "test_sink",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							]
+						}
+					},
+					{
+						"name": "Lookup",
+						"type": "Lookup",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.00:10:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"wildcardFileName": "order_items_*29.csv",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"dataset": {
+								"referenceName": "test_source",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/test_source')]",
+				"[concat(variables('factoryId'), '/datasets/test_sink')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_lookup')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Lookup",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.00:10:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"wildcardFileName": "order_items_*29.csv",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"dataset": {
+								"referenceName": "test_source",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/test_source')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_variables')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Folder Name",
+						"type": "SetVariable",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "vFolderName",
+							"value": {
+								"value": "@concat('sink/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Copy data",
+						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "Folder Name",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.00:10:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"wildcardFileName": "*.csv",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "test_source",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "test_sink",
+								"type": "DatasetReference",
+								"parameters": {
+									"pPathName": {
+										"value": "@variables('vFolderName')",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"vFolderName": {
+						"type": "String"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/test_source')]",
+				"[concat(variables('factoryId'), '/datasets/test_sink')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_customer_staging')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -428,7 +1394,10 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "customer",
+						"folderPath": {
+							"value": "@concat('customers/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+							"type": "Expression"
+						},
 						"fileSystem": "staging"
 					},
 					"compressionCodec": "snappy"
@@ -613,7 +1582,10 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "order_item",
+						"folderPath": {
+							"value": "@concat('order_items/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+							"type": "Expression"
+						},
 						"fileSystem": "staging"
 					},
 					"compressionCodec": "snappy"
@@ -731,7 +1703,10 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "order",
+						"folderPath": {
+							"value": "@concat('orders/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+							"type": "Expression"
+						},
 						"fileSystem": "staging"
 					},
 					"compressionCodec": "snappy"
@@ -858,7 +1833,10 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "product",
+						"folderPath": {
+							"value": "@concat('products/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+							"type": "Expression"
+						},
 						"fileSystem": "staging"
 					},
 					"compressionCodec": "snappy"
@@ -904,6 +1882,10 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "customers.json",
+						"folderPath": {
+							"value": "@concat('customers/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+							"type": "Expression"
+						},
 						"fileSystem": "bronze"
 					}
 				},
@@ -931,6 +1913,10 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "order_items.txt",
+						"folderPath": {
+							"value": "@concat('order_items/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+							"type": "Expression"
+						},
 						"fileSystem": "bronze"
 					},
 					"columnDelimiter": ",",
@@ -962,6 +1948,10 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "orders.parquet",
+						"folderPath": {
+							"value": "@concat('orders/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+							"type": "Expression"
+						},
 						"fileSystem": "bronze"
 					},
 					"compressionCodec": "snappy"
@@ -990,6 +1980,10 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "products.json",
+						"folderPath": {
+							"value": "@concat('products/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+							"type": "Expression"
+						},
 						"fileSystem": "bronze"
 					}
 				},
@@ -1017,6 +2011,10 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "stores.json",
+						"folderPath": {
+							"value": "@concat('stores/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+							"type": "Expression"
+						},
 						"fileSystem": "bronze"
 					}
 				},
@@ -1043,7 +2041,10 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "store",
+						"folderPath": {
+							"value": "@concat('stores/', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+							"type": "Expression"
+						},
 						"fileSystem": "staging"
 					},
 					"compressionCodec": "snappy"
@@ -1148,6 +2149,83 @@
 						"type": "INT96"
 					}
 				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_dl_orders')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/test_sink')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_dl_orders",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"pPathName": {
+						"type": "String"
+					},
+					"pFilename": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "test"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().pFilename",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().pPathName",
+							"type": "Expression"
+						},
+						"fileSystem": "test"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_dl_orders')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/test_source')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_dl_orders",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "test"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "source",
+						"fileSystem": "test"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/ls_dl_orders')]"
@@ -1705,160 +2783,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/df_store_landing_to_raw')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "ds_landing_products",
-								"type": "DatasetReference"
-							},
-							"name": "ProductsLanding"
-						},
-						{
-							"dataset": {
-								"referenceName": "ds_landing_stores",
-								"type": "DatasetReference"
-							},
-							"name": "StoresLanding"
-						},
-						{
-							"dataset": {
-								"referenceName": "ds_landing_customer",
-								"type": "DatasetReference"
-							},
-							"name": "CustomersLanding"
-						},
-						{
-							"dataset": {
-								"referenceName": "ds_landing_orders",
-								"type": "DatasetReference"
-							},
-							"name": "OrdersLanding"
-						},
-						{
-							"dataset": {
-								"referenceName": "ds_landing_order_items",
-								"type": "DatasetReference"
-							},
-							"name": "OrdersItemsLanding"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ds_raw_products",
-								"type": "DatasetReference"
-							},
-							"name": "ProductsRaw"
-						},
-						{
-							"dataset": {
-								"referenceName": "ds_raw_stores",
-								"type": "DatasetReference"
-							},
-							"name": "StoresRaw"
-						},
-						{
-							"dataset": {
-								"referenceName": "ds_raw_customer",
-								"type": "DatasetReference"
-							},
-							"name": "CustomersRaw"
-						},
-						{
-							"dataset": {
-								"referenceName": "ds_raw_orders",
-								"type": "DatasetReference"
-							},
-							"name": "OrdersRaw"
-						},
-						{
-							"dataset": {
-								"referenceName": "ds_raw_order_items",
-								"type": "DatasetReference"
-							},
-							"name": "OrdersItemsRaw"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     documentForm: 'documentPerLine') ~> ProductsLanding",
-						"source(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     documentForm: 'documentPerLine') ~> StoresLanding",
-						"source(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     documentForm: 'documentPerLine') ~> CustomersLanding",
-						"source(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     format: 'parquet') ~> OrdersLanding",
-						"source(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> OrdersItemsLanding",
-						"ProductsLanding sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> ProductsRaw",
-						"StoresLanding sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> StoresRaw",
-						"CustomersLanding sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> CustomersRaw",
-						"OrdersLanding sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     format: 'parquet',",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> OrdersRaw",
-						"OrdersItemsLanding sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> OrdersItemsRaw"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_landing_products')]",
-				"[concat(variables('factoryId'), '/datasets/ds_landing_stores')]",
-				"[concat(variables('factoryId'), '/datasets/ds_landing_customer')]",
-				"[concat(variables('factoryId'), '/datasets/ds_landing_orders')]",
-				"[concat(variables('factoryId'), '/datasets/ds_landing_order_items')]",
-				"[concat(variables('factoryId'), '/datasets/ds_raw_products')]",
-				"[concat(variables('factoryId'), '/datasets/ds_raw_stores')]",
-				"[concat(variables('factoryId'), '/datasets/ds_raw_customer')]",
-				"[concat(variables('factoryId'), '/datasets/ds_raw_orders')]",
-				"[concat(variables('factoryId'), '/datasets/ds_raw_order_items')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/df_store_staging_to_silver')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -2002,8 +2926,10 @@
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> DropColumns",
 						"DropColumns derive(SUBTOTAL = UNIT_PRICE * QUANTITY,",
-						"          UPDATED_TIMESTAMP = currentUTC()) ~> SubtotalAndUpdatedTimestampOrders",
+						"          UPDATED_TIMESTAMP = currentUTC(),",
+						"          ORDER_ITEM_ID = toInteger(concat(toString(ORDER_ID), toString(PRODUCT_ID)))) ~> SubtotalAndUpdatedTimestampOrders",
 						"SubtotalAndUpdatedTimestampOrders select(mapColumn(",
+						"          ORDER_ITEM_ID,",
 						"          ORDER_ID,",
 						"          ORDER_DATE,",
 						"          CUSTOMER_ID,",
@@ -2012,8 +2938,8 @@
 						"          PRODUCT_ID,",
 						"          UNIT_PRICE,",
 						"          QUANTITY,",
-						"          SUBTOTAL,",
-						"          UPDATED_TIMESTAMP",
+						"          UPDATED_TIMESTAMP,",
+						"          SUBTOTAL",
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> RearrengeColumnsOrders",
@@ -2038,7 +2964,11 @@
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> OrdersSilver",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('key',",
+						"          0,",
+						"          ORDER_DATE",
+						"     )) ~> OrdersSilver",
 						"UpdatedTimestamp sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
@@ -2048,11 +2978,13 @@
 						"          UPDATED_TIMESTAMP as timestamp",
 						"     ),",
 						"     format: 'parquet',",
+						"     partitionFileNames:['products.parquet'],",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> ProductsSilver",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> ProductsSilver",
 						"UpdatesTimestampStores sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
@@ -2063,11 +2995,13 @@
 						"          UPDATED_TIMESTAMP as timestamp",
 						"     ),",
 						"     format: 'parquet',",
+						"     partitionFileNames:['stores.parquet'],",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> StoresSilver"
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> StoresSilver"
 					]
 				}
 			},
