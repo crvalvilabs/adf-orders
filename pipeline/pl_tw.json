@@ -20,10 +20,18 @@
 						"sqlReaderStoredProcedureName": "[dbo].[sp_window_ingest]",
 						"storedProcedureParameters": {
 							"end": {
-								"type": "String"
+								"type": "String",
+								"value": {
+									"value": "@pipeline().parameters.pEnd",
+									"type": "Expression"
+								}
 							},
 							"start": {
-								"type": "String"
+								"type": "String",
+								"value": {
+									"value": "@pipeline().parameters.pStart",
+									"type": "Expression"
+								}
 							}
 						},
 						"queryTimeout": "02:00:00",
@@ -58,6 +66,14 @@
 				]
 			}
 		],
+		"parameters": {
+			"pEnd": {
+				"type": "string"
+			},
+			"pStart": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }
