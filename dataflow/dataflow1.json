@@ -3,11 +3,29 @@
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
-			"sources": [],
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_stores_silver",
+						"type": "DatasetReference"
+					},
+					"name": "StoresDS"
+				}
+			],
 			"sinks": [],
 			"transformations": [],
 			"scriptLines": [
-				""
+				"source(output(",
+				"          STORE_ID as integer,",
+				"          STORE_NAME as string,",
+				"          LATITUDE as double,",
+				"          LONGITUDE as double,",
+				"          UPDATED_TIMESTAMP as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> StoresDS"
 			]
 		}
 	}
