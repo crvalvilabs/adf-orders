@@ -74,6 +74,9 @@
 				},
 				{
 					"name": "UpdatesTimestampStores"
+				},
+				{
+					"name": "AlterRowOrders"
 				}
 			],
 			"scriptLines": [
@@ -159,7 +162,8 @@
 				"     skipDuplicateMapOutputs: true) ~> RearrengeColumnsOrders",
 				"ProductsStaging derive(UPDATED_TIMESTAMP = currentUTC()) ~> UpdatedTimestamp",
 				"StoresStaging derive(UPDATED_TIMESTAMP = currentUTC()) ~> UpdatesTimestampStores",
-				"RearrengeColumnsOrders sink(allowSchemaDrift: true,",
+				"RearrengeColumnsOrders alterRow() ~> AlterRowOrders",
+				"AlterRowOrders sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          ORDER_ID as integer,",
