@@ -23,7 +23,7 @@
 			],
 			"transformations": [
 				{
-					"name": "alterRow"
+					"name": "AlterRow"
 				}
 			],
 			"scriptLines": [
@@ -38,8 +38,8 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> StoresDS",
-				"StoresDS alterRow() ~> alterRow",
-				"alterRow sink(allowSchemaDrift: true,",
+				"StoresDS alterRow() ~> AlterRow",
+				"AlterRow sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          STORE_ID as integer,",
