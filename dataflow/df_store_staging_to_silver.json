@@ -77,12 +77,6 @@
 				},
 				{
 					"name": "AlterRowOrders"
-				},
-				{
-					"name": "AlterRowProducts"
-				},
-				{
-					"name": "AlterRowStores"
 				}
 			],
 			"scriptLines": [
@@ -169,8 +163,6 @@
 				"ProductsStaging derive(UPDATED_TIMESTAMP = currentUTC()) ~> UpdatedTimestamp",
 				"StoresStaging derive(UPDATED_TIMESTAMP = currentUTC()) ~> UpdatesTimestampStores",
 				"RearrengeColumnsOrders alterRow() ~> AlterRowOrders",
-				"UpdatedTimestamp alterRow() ~> AlterRowProducts",
-				"UpdatesTimestampStores alterRow() ~> AlterRowStores",
 				"AlterRowOrders sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -201,7 +193,7 @@
 				"     ),",
 				"     preCommands: [],",
 				"     postCommands: []) ~> OrdersSilver",
-				"AlterRowProducts sink(allowSchemaDrift: true,",
+				"UpdatedTimestamp sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          PRODUCT_ID as integer,",
@@ -212,8 +204,7 @@
 				"     deletable:false,",
 				"     insertable:true,",
 				"     updateable:false,",
-				"     upsertable:true,",
-				"     keys:['PRODUCT_ID'],",
+				"     upsertable:false,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
@@ -221,7 +212,7 @@
 				"     partitionBy('hash', 1),",
 				"     preCommands: [],",
 				"     postCommands: []) ~> ProductsSilver",
-				"AlterRowStores sink(allowSchemaDrift: true,",
+				"UpdatesTimestampStores sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          STORE_ID as integer,",
