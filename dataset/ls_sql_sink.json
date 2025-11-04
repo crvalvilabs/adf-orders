@@ -1,5 +1,5 @@
 {
-	"name": "ls_sql_orders",
+	"name": "ls_sql_sink",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_sql_stores",
@@ -12,8 +12,8 @@
 		"type": "AzureSqlTable",
 		"schema": [],
 		"typeProperties": {
-			"schema": "ORDERS",
-			"table": "ORDERS"
+			"schema": "dbo",
+			"table": "tw_sink"
 		}
 	}
 }

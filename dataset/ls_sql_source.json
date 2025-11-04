@@ -1,5 +1,5 @@
 {
-	"name": "ls_sql_",
+	"name": "ls_sql_source",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_sql_stores",
