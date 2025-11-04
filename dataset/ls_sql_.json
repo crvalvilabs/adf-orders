@@ -1,0 +1,19 @@
+{
+	"name": "ls_sql_",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sql_stores",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "test"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tw_source"
+		}
+	}
+}
