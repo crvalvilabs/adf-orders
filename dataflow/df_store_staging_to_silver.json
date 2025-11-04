@@ -50,7 +50,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "ds_stores_silver",
+						"referenceName": "ds_silver_stores",
 						"type": "DatasetReference"
 					},
 					"name": "StoresSilver"
@@ -80,6 +80,9 @@
 				},
 				{
 					"name": "AlterRowProducts"
+				},
+				{
+					"name": "AlterRowStores"
 				}
 			],
 			"scriptLines": [
@@ -167,6 +170,7 @@
 				"StoresStaging derive(UPDATED_TIMESTAMP = currentUTC()) ~> UpdatesTimestampStores",
 				"RearrengeColumnsOrders alterRow() ~> AlterRowOrders",
 				"UpdatedTimestamp alterRow() ~> AlterRowProducts",
+				"UpdatesTimestampStores alterRow() ~> AlterRowStores",
 				"AlterRowOrders sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -209,6 +213,7 @@
 				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:true,",
+				"     keys:['PRODUCT_ID'],",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
@@ -216,23 +221,26 @@
 				"     partitionBy('hash', 1),",
 				"     preCommands: [],",
 				"     postCommands: []) ~> ProductsSilver",
-				"UpdatesTimestampStores sink(allowSchemaDrift: true,",
+				"AlterRowStores sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          STORE_ID as integer,",
 				"          STORE_NAME as string,",
-				"          LATITUDE as double,",
-				"          LONGITUDE as double,",
+				"          LATITUDE as decimal(18,0),",
+				"          LONGITUDE as decimal(18,0),",
 				"          UPDATED_TIMESTAMP as timestamp",
 				"     ),",
-				"     format: 'parquet',",
-				"     partitionFileNames:['stores.parquet'],",
-				"     umask: 0022,",
-				"     preCommands: [],",
-				"     postCommands: [],",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> StoresSilver"
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     partitionBy('hash', 1),",
+				"     preCommands: [],",
+				"     postCommands: []) ~> StoresSilver"
 			]
 		}
 	}
