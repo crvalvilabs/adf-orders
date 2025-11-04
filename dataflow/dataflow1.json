@@ -38,7 +38,7 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> StoresDS",
-				"StoresDS alterRow() ~> AlterRow",
+				"StoresDS alterRow(deleteIf(true())) ~> AlterRow",
 				"AlterRow sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
