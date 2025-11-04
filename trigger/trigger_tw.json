@@ -1,0 +1,29 @@
+{
+	"name": "trigger_tw",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipeline": {
+			"pipelineReference": {
+				"referenceName": "pl_tw",
+				"type": "PipelineReference"
+			},
+			"parameters": {
+				"pEnd": "@trigger().ouputs.windowEndTime",
+				"pStart": "@trigger().outputs.windowStartTime"
+			}
+		},
+		"type": "TumblingWindowTrigger",
+		"typeProperties": {
+			"frequency": "Minute",
+			"interval": 5,
+			"startTime": "2025-11-04T02:52:00Z",
+			"delay": "00:00:00",
+			"maxConcurrency": 50,
+			"retryPolicy": {
+				"intervalInSeconds": 30
+			},
+			"dependsOn": []
+		}
+	}
+}
