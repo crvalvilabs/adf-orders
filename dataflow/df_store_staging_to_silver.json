@@ -162,7 +162,7 @@
 				"     skipDuplicateMapOutputs: true) ~> RearrengeColumnsOrders",
 				"ProductsStaging derive(UPDATED_TIMESTAMP = currentUTC()) ~> UpdatedTimestamp",
 				"StoresStaging derive(UPDATED_TIMESTAMP = currentUTC()) ~> UpdatesTimestampStores",
-				"RearrengeColumnsOrders alterRow() ~> AlterRowOrders",
+				"RearrengeColumnsOrders alterRow(upsertIf(true())) ~> AlterRowOrders",
 				"AlterRowOrders sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
